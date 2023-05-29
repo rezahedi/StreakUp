@@ -20,6 +20,7 @@ model users {
 model habits {
   id         String   @id @default(uuid())
   name       String
+  habitType  String
   createdAt  DateTime @default(now())
   streak     Int      @default(0)
   lastStreak Int      @default(0)

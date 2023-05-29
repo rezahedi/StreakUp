@@ -40,4 +40,11 @@ npx create-next-app@latest
 npm i prisma --save-dev
 npx prisma init --datasource-provider sqlite
 npx prisma migrate dev --name init
+# install font awesome
+# Core SVG
+npm i --save @fortawesome/fontawesome-svg-core
+# regular free font
+npm i --save @fortawesome/free-regular-svg-icons
+# react support component
+npm i --save @fortawesome/react-fontawesome@latest
 ```
