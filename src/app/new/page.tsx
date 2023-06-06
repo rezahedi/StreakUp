@@ -3,6 +3,7 @@ import { faArrowAltCircleLeft } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { prisma } from '@/db'
 import { redirect } from 'next/navigation'
+import RepeatPattern from './RepeatPattern'
 
 async function createHabit (data: FormData) {
 	'use server'
@@ -28,6 +29,7 @@ async function createHabit (data: FormData) {
 }
 
 export default function Home() {
+
 	return (
 		<>
 			<header className="flex justify-between items-center mb-8">
@@ -42,12 +44,7 @@ export default function Home() {
 				<label htmlFor="name" className="text-slate-400 text-xs">Name</label>
 				<input id="name" name="habitName" type="text" className="border border-slate-300 rounded px-2 py-1 outline-none text-slate-800" placeholder='Example: Read books for 30 min' />
 				<label htmlFor="habitType" className="text-slate-400 text-xs">Habit Type</label>
-				<select id="habitType" name="habitType" className="border border-slate-300 rounded px-2 py-1 outline-none text-slate-800">
-					<option value="Everyday">Every day</option>
-					<option value="Weekdays">Twice a week</option>
-					<option value="Weekends">Every Weekends</option>
-					<option value="Custom">Custom</option>
-				</select>
+				<RepeatPattern />
 				<div className='flex justify-end gap-2'>
 					<button type="submit" className="border border-slate-300 text-slate-300 rounded px-2 py-1 hover:bg-slate-700 focus-within:bg-slate-700 outline-none">Create</button>
 					<Link href=".." className='border border-slate-300 text-slate-300 rounded px-2 py-1 hover:bg-slate-700 focus-within:bg-slate-700 outline-none'>Cancel</Link>
