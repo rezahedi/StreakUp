@@ -41,6 +41,7 @@ export default function SelectDayTimes( { callback }: MyComponentProps ) {
 
 	const handleToggle = (e, index: number, time: string) => {
 		e.preventDefault();
+		e.target.blur();
 
 		// If 'All Day' is selected, unselect all other times
 		// If noting is selected, select 'All Day'
@@ -85,7 +86,7 @@ export default function SelectDayTimes( { callback }: MyComponentProps ) {
 
 const Time = ({ time, title, selected, onClick }) => {
 	return (
-		<button className={`p-3 rounded-full border border-transparent bg-slate-700 cursor-pointer outline-none hover:bg-slate-500 focus:bg-slate-500 ${selected ? 'bg-slate-600 border-slate-100' : ''}`}
+		<button className={`p-3 rounded-full border cursor-pointer outline-none hover:bg-slate-500 focus:bg-slate-500 ${selected ? 'bg-slate-600 border-slate-100' : 'border-transparent bg-slate-700'}`}
 			aria-label={title}
 			title={title}
 			onClick={onClick}>{time}</button>

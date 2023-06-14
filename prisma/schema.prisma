@@ -11,20 +11,77 @@ datasource db {
 }
 
 model users {
-  id     String   @id @default(uuid())
-  name   String
-  email  String   @unique
-  habits habits[]
+  id       String   @id @default(uuid())
+  name     String
+  email    String   @unique
+  timezone String   @default("UTC") // user preferred timezone, used to calculate user's local time and convert all DB's UTC times to user's local time
+  // TODO: Handle daylight saving time transitions
+  tokens   Int      @default(10)
+  level    Int      @default(1)
+  habits   habits[]
 }
 
 model habits {
-  id         String   @id @default(uuid())
-  name       String
-  habitType  String
-  createdAt  DateTime @default(now())
-  streak     Int      @default(0)
-  lastStreak Int      @default(0)
-  updatedAt  DateTime @updatedAt
-  userId     String
-  user       users    @relation(fields: [userId], references: [id])
+  id              String @id @default(uuid())
+  name            String
+  repeatPattern   String @default("1d") // repeat interval, repeat type, repeat on
+  readablePattern String @default("Daily") // user readable version of repeatPattern for UI purposes
+  // a habit can have multiple check-ins in a day like (morning and evening) or week (Mon, Wed, Fri) so we need to track the check-ins for a habit, so we need two fields one for the total check-ins and one for the last check-in
+  levels          Int    @default(1) // total check-ins
+  lastLevel       Int    @default(0) // last check-in
+
+  // start/end date is the duration of check-in for a habit
+  // if missed the check-in for a habit, the streak will be reset to 0 and the habit will be inactive
+  startDate DateTime?
+  endDate   DateTime?
+
+  // Daily                               = 1d
+  // Weekly on Tuesday                   = 1w Tue
+  // Every weekday (Monday to Friday)    = 1w Mon, Tue, Wed, Thu, Fri
+  // Every weekend (Saturday and Sunday) = 1w Sat, Sun
+  // Custom...                           = select repeatInterval, repeatType, repeatOn
+
+  // in days we need to specify time of day like morning or evening, but if not specified deadline is always 12am midnight
+  // 8am Morning 5am - 11.59am
+  // 4pm Afternoon 12pm - 5pm
+  // 8pm Evening 5pm - 11:59pm
+
+  // Every Day                           = 1d // time by default is 12am midnight
+  // Every Day at 8am                    = 1d 8am
+  // Every Day at 5pm                    = 1d 5pm
+  // Every Day at 8am, 5pm               = 1d 8am, 5pm
+  // Every 2 Days                        = 2d // time by default is 12am midnight
+  // Every 2 Days at 8am                 = 2d 8am
+  // Every 2 Days at 8am, 5pm            = 2d 8am, 5pm
+
+  // in weeks no need for time of day, deadline is always 12am midnight
+  // deadline time is always 12am midnight
+
+  // Every Week                          = 1w // day by default is Sunday the last day of week
+  // Every Week on Monday                = 1w Mon
+  // Every Week on Monday, Wednesday     = 1w Mon, Wed
+  // Every 2 Weeks                       = 2w
+  // Every 2 Weeks on Monday             = 2w Mon
+  // Every 2 Weeks on Monday, Wednesday  = 2w Mon, Wed
+  // Every Month                         = 1m // day by default is the last day of the month
+  // Every Month on the 1st              = 1m 1
+  // Every Month on the 3rd, 15th        = 1m 3, 15
+  // Every 2 Months                      = 2m
+  // Every 2 Months on the 7th           = 2m 7
+  // Every 2 Months on the 2nd, 15th     = 2m 2, 15
+
+  // multi days selecting of the month should be limited to 3 days only
+  // because it's not make sense to select more than 3 days in a month when we have weeks and days options
+
+  createdAt    DateTime @default(now())
+  streak       Int      @default(0) // current streak
+  lastStreak   Int      @default(0) // last streak before the current streak
+  streakBreaks Int      @default(0) // number of times the streak was broken
+
+  // active/inactive when streak is broken the habit will be inactive
+  status Boolean @default(true)
+
+  updatedAt DateTime @updatedAt
+  userId    String
+  user      users    @relation(fields: [userId], references: [id])
 }

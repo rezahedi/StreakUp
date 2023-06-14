@@ -36,6 +36,7 @@ export default function SelectWeekDays ( { defaultValue, callback }: MyComponent
 
 	const handleToggle = (e, day: string) => {
 		e.preventDefault();
+		e.target.blur();
 
 		if (selectedDays.includes(day)) {
 			setSelectedDays( selectedDays.filter(d => d !== day) )
@@ -60,7 +61,7 @@ export default function SelectWeekDays ( { defaultValue, callback }: MyComponent
 
 const Day = ({ day, selected, onClick }) => {
 	return (
-		<button className={`p-3 rounded-full border border-transparent bg-slate-700 cursor-pointer outline-none hover:bg-slate-500 focus:bg-slate-500 ${selected ? 'bg-slate-600 border-slate-100' : ''}`}
+		<button className={`p-3 rounded-full border cursor-pointer outline-none hover:bg-slate-500 focus:bg-slate-500 ${selected ? 'bg-slate-600 border-slate-100' : 'bg-slate-700 border-transparent'}`}
 			aria-label={day}
 			title={day}
 			onClick={onClick}>{day.charAt(0)}</button>

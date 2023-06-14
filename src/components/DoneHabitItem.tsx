@@ -1,9 +1,7 @@
-'use client'
 import RepeatPattern from '@/app/new/RepeatPattern';
-import { redirect } from 'next/navigation';
 import { faCalendarCheck, faCalendarDays } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { getRepeatPatternObject, getStartEndDate, patternFormatChecker } from '@/utils/dates';
+import { getRepeatPatternObject } from '@/utils/dates';
 
 
 type myProps = {
@@ -12,13 +10,12 @@ type myProps = {
 	repeatPattern: string;
 	levels: number;
 	lastLevel: number;
-	streak: number;
 	lastStreak: number;
 	createdAt: Date;
-	checkinHabit: (id: string) => void;
 }
 
-export default function HabitItem({ id, name, repeatPattern, levels, lastLevel, streak, lastStreak, createdAt, checkinHabit }: myProps) {
+export default function DoneHabitItem({ id, name, repeatPattern, levels, lastLevel, lastStreak, createdAt }: myProps) {
+
 	let patternObject = getRepeatPatternObject(repeatPattern)
 
 	return (
@@ -28,22 +25,16 @@ export default function HabitItem({ id, name, repeatPattern, levels, lastLevel, 
 			{/* <input id={id} type="checkbox" className="cursor-pointer" /> */}
 			<div className="flex flex-col grow">
 				<span className="text-slate-400 text-xs">{patternObject.readablePattern}</span>
-				<label htmlFor={id} className="text-lg py-2 cursor-pointer">{name}</label>
+				<label htmlFor={id} className="text-lg py-2 cursor-pointer line-through">{name}</label>
 				<div className='flex gap-8'>
 					<span className="flex gap-1 text-slate-400 text-xs">
 						<FontAwesomeIcon icon={faCalendarCheck} className='w-3' />
-						{streak ? `${streak}d streak / ` : ``}
-						{lastStreak ? `${lastStreak}d best streak` : `Not started`}
-					</span>
+						{lastStreak ? `${lastStreak}d best streak` : `Not started`}</span>
 					<time className="flex gap-1 text-slate-400 text-xs">
 						<FontAwesomeIcon icon={faCalendarDays} className='w-3' />
 						{createdAt.toLocaleDateString()}</time>
 				</div>
 			</div>
-			<button
-				onClick={e => checkinHabit(id)}
-				className='border text-orange-500 border-orange-500 rounded px-2 py-1 hover:bg-orange-500 hover:bg-opacity-20 focus-within:bg-orange-500 focus-within:bg-opacity-20 whitespace-nowrap'>
-				Check-in</button>
 		</li>
 	)
 }

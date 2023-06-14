@@ -1,9 +1,6 @@
-'use client'
-import RepeatPattern from '@/app/new/RepeatPattern';
-import { redirect } from 'next/navigation';
 import { faCalendarCheck, faCalendarDays } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { getRepeatPatternObject, getStartEndDate, patternFormatChecker } from '@/utils/dates';
+import { getRepeatPatternObject, getcomingDate } from '@/utils/dates';
 
 
 type myProps = {
@@ -14,11 +11,11 @@ type myProps = {
 	lastLevel: number;
 	streak: number;
 	lastStreak: number;
+	startDate: Date;
 	createdAt: Date;
-	checkinHabit: (id: string) => void;
 }
 
-export default function HabitItem({ id, name, repeatPattern, levels, lastLevel, streak, lastStreak, createdAt, checkinHabit }: myProps) {
+export default function ComingHabitItem({ id, name, repeatPattern, levels, lastLevel, streak, lastStreak, startDate, createdAt }: myProps) {
 	let patternObject = getRepeatPatternObject(repeatPattern)
 
 	return (
@@ -40,10 +37,9 @@ export default function HabitItem({ id, name, repeatPattern, levels, lastLevel, 
 						{createdAt.toLocaleDateString()}</time>
 				</div>
 			</div>
-			<button
-				onClick={e => checkinHabit(id)}
-				className='border text-orange-500 border-orange-500 rounded px-2 py-1 hover:bg-orange-500 hover:bg-opacity-20 focus-within:bg-orange-500 focus-within:bg-opacity-20 whitespace-nowrap'>
-				Check-in</button>
+			<div className='whitespace-nowrap'>
+				In {getcomingDate(startDate)}
+			</div>
 		</li>
 	)
 }
