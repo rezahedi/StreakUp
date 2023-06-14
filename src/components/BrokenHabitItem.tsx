@@ -21,10 +21,14 @@ export default function BrokenHabitItem({ id, name, repeatPattern, levels, lastL
 	let patternObject = getRepeatPatternObject(repeatPattern)
 	const [active, setActive] = useState(false)
 
-	const handleActivation = (id: string) => {
-		let res = activateHabit(id)
-		if (res) {
-			setActive(true)
+	const handleActivation = async (id: string) => {
+		try {
+			let res = activateHabit(id)
+			if (res)
+				setActive(true)
+
+		} catch (error) {
+			console.error(error)
 		}
 	}
 
@@ -45,7 +49,7 @@ export default function BrokenHabitItem({ id, name, repeatPattern, levels, lastL
 						{createdAt.toLocaleDateString()}</time>
 				</div>
 			</div>
-			{active && <span className='text-green-500 text-xs'>Activated!</span>}
+			{active && <span className='text-green-500'>Activated!</span>}
 			{!active && 
 				<button
 					onClick={e => handleActivation(id)}

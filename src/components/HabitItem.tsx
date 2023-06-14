@@ -1,4 +1,5 @@
 'use client'
+import { useState } from 'react';
 import RepeatPattern from '@/app/new/RepeatPattern';
 import { redirect } from 'next/navigation';
 import { faCalendarCheck, faCalendarDays } from '@fortawesome/free-regular-svg-icons';
@@ -18,8 +19,25 @@ type myProps = {
 	checkinHabit: (id: string) => void;
 }
 
-export default function HabitItem({ id, name, repeatPattern, levels, lastLevel, streak, lastStreak, createdAt, checkinHabit }: myProps) {
+export default function HabitItem(
+	{
+		id, name, repeatPattern, levels, lastLevel, streak, lastStreak, createdAt, checkinHabit
+	}: myProps
+) {
+
 	let patternObject = getRepeatPatternObject(repeatPattern)
+	const [checkin, setCheckin] = useState(false)
+
+	const handleCheckin = async (id: string) => {
+		try {
+			let res = checkinHabit(id)
+			if (res)
+				setCheckin(true)
+
+		} catch (error) {
+			console.error(error)
+		}
+	}
 
 	return (
 		<li className="flex gap-4 items-center rounded-lg bg-slate-700 my-4 p-4">
@@ -28,7 +46,7 @@ export default function HabitItem({ id, name, repeatPattern, levels, lastLevel, 
 			{/* <input id={id} type="checkbox" className="cursor-pointer" /> */}
 			<div className="flex flex-col grow">
 				<span className="text-slate-400 text-xs">{patternObject.readablePattern}</span>
-				<label htmlFor={id} className="text-lg py-2 cursor-pointer">{name}</label>
+				<label htmlFor={id} className={`text-lg py-2 cursor-pointer`+(checkin && ` line-through`)}>{name}</label>
 				<div className='flex gap-8'>
 					<span className="flex gap-1 text-slate-400 text-xs">
 						<FontAwesomeIcon icon={faCalendarCheck} className='w-3' />
@@ -40,10 +58,13 @@ export default function HabitItem({ id, name, repeatPattern, levels, lastLevel, 
 						{createdAt.toLocaleDateString()}</time>
 				</div>
 			</div>
-			<button
-				onClick={e => checkinHabit(id)}
-				className='border text-orange-500 border-orange-500 rounded px-2 py-1 hover:bg-orange-500 hover:bg-opacity-20 focus-within:bg-orange-500 focus-within:bg-opacity-20 whitespace-nowrap'>
-				Check-in</button>
+			{checkin && <span className='text-green-500'>Checked in</span>}
+			{!checkin && 
+				<button
+					onClick={e => handleCheckin(id)}
+					className='border text-orange-500 border-orange-500 rounded px-2 py-1 hover:bg-orange-500 hover:bg-opacity-20 focus-within:bg-orange-500 focus-within:bg-opacity-20 whitespace-nowrap'>
+					Check-in</button>
+			}
 		</li>
 	)
 }
