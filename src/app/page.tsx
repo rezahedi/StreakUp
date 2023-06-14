@@ -224,30 +224,51 @@ export default async function Home() {
 					href="/new">
 						<FontAwesomeIcon icon={faSquarePlus} className='w-4' /> New Habit</Link>
 			</Header>
-			<h2 className="text-xl text-orange-500 border-b border-orange-500 pb-2 my-4">Need Check-in Now:</h2>
+			<h2 className="text-xl text-orange-500 border-b border-orange-500 pb-2 my-4">
+				Need Check-in Now:
+			</h2>
+			{habits.length === 0 && <p className="text-center text-green-500 py-16">You are all set for now!</p>}
 			<ul>
 				{habits.map(habit => 
 					<HabitItem key={habit.id} {...habit} checkinHabit={checkinHabit} />
 				)}
 			</ul>
-			<h2 className="text-xl text-orange-500 border-b border-orange-500 pb-2 my-4">Upcoming Habits:</h2>
-			<ul>
-				{comingHabits.map(habit =>
-					<ComingHabitItem key={habit.id} {...habit} />
-				)}
-			</ul>
-			<h2 className="text-xl text-orange-500 border-b border-orange-500 pb-2 my-4">Done Habits:</h2>
-			<ul>
-				{doneHabits.map(habit =>
-					<DoneHabitItem key={habit.id} {...habit} />
-				)}
-			</ul>
-			<h2 className="text-xl text-orange-500 border-b border-orange-500 pb-2 my-4">Broken Habits:</h2>
-			<ul>
-				{brokenHabits.map(habit =>
-					<BrokenHabitItem key={habit.id} {...habit} activateHabit={activateHabit} />
-				)}
-			</ul>
+			{comingHabits.length > 0 &&
+				<>
+					<h2 className="text-xl text-orange-500 border-b border-orange-500 pb-2 my-4">
+						Upcoming:
+					</h2>
+					<ul>
+						{comingHabits.map(habit =>
+							<ComingHabitItem key={habit.id} {...habit} />
+						)}
+					</ul>
+				</>
+			}
+			{doneHabits.length > 0 &&
+				<>
+					<h2 className="text-xl text-orange-500 border-b border-orange-500 pb-2 my-4">
+						Done:
+					</h2>
+					<ul>
+						{doneHabits.map(habit =>
+							<DoneHabitItem key={habit.id} {...habit} />
+						)}
+					</ul>
+				</>
+			}
+			{brokenHabits.length > 0 &&
+				<>
+					<h2 className="text-xl text-orange-500 border-b border-orange-500 pb-2 my-4">
+						Broken:
+					</h2>
+					<ul>
+						{brokenHabits.map(habit =>
+							<BrokenHabitItem key={habit.id} {...habit} activateHabit={activateHabit} />
+						)}
+					</ul>
+				</>
+			}
 		</>
 	)
 }
