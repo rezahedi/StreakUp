@@ -124,87 +124,84 @@ async function updateHabits () {
 	})
 }
 
-function getHabits () {
-	return prisma.habits.findMany({
-		where: {
-			userId: '34e3569f-2090-40ea-a519-28d28bc803e0',
-			status: true,
-			startDate: {
-				lt: new Date()
-			}
-		},
-		orderBy: {
-			endDate: 'asc',
-		},
+async function getHabits () {
+	const data = await fetch( process.env.NEXT_PUBLIC_API_URL + '/checkin' )
+	const habits = await data.json()
+
+	if( habits.length === 0 ) return []
+
+	// Change all string dates as Date objects
+	habits.forEach((obj, i) => {
+		habits[i] = {
+			...obj,
+			startDate: new Date(obj.startDate),
+			endDate: new Date(obj.endDate),
+			createdAt: new Date(obj.createdAt),
+			updatedAt: new Date(obj.updatedAt)
+		}
 	})
+
+	return habits
 }
 
 async function getComingHabits () {
-	let res = await prisma.habits.findMany({
-		where: {
-			userId: '34e3569f-2090-40ea-a519-28d28bc803e0',
-			status: true,
-			startDate: {
-				gte: new Date()
-			}
-		},
-		orderBy: {
-			startDate: 'asc'
+	let data = await fetch( process.env.NEXT_PUBLIC_API_URL + '/coming' )
+	const habits = await data.json()
+
+	if( habits.length === 0 ) return []
+
+	// Change all string dates as Date objects
+	habits.forEach((obj, i) => {
+		habits[i] = {
+			...obj,
+			startDate: new Date(obj.startDate),
+			endDate: new Date(obj.endDate),
+			createdAt: new Date(obj.createdAt),
+			updatedAt: new Date(obj.updatedAt)
 		}
 	})
 
-	return res.filter(habit => {
-		let now = new Date()
-
-		// TODO: include habits that created newly and never did the first checked-in,
-		// They should be in coming habits but we can filter by startDate < now + 24 hours
-		let next24Hours = new Date()
-		next24Hours.setDate( next24Hours.getDate() + 1 )
-		if ( habit.lastStreak === 0 && habit.startDate < next24Hours.getTime() ) return true
-
-		// return habits that we are closer to startDate than to updatedAt, means they are coming for checkin
-		return habit.startDate - now.getTime() < now.getTime() - habit.updatedAt
-	})
+	return habits
 }
 
 async function getDoneHabits () {
-	let res = await prisma.habits.findMany({
-		where: {
-			userId: '34e3569f-2090-40ea-a519-28d28bc803e0',
-			status: true,
-			startDate: {
-				gte: new Date()
-			},
-			// TODO: exclude habits that created newly and never did the first checked-in, they should be in coming habits
-			lastStreak: {
-				gt: 0
-			},
-			streakBreaks: {
-				gt: 0
-			}
-		},
-		orderBy: {
-			updatedAt: 'desc'
+	let data = await fetch( process.env.NEXT_PUBLIC_API_URL + '/done' )
+	const habits = await data.json()
+
+	if( habits.length === 0 ) return []
+
+	// Change all string dates as Date objects
+	habits.forEach((obj, i) => {
+		habits[i] = {
+			...obj,
+			startDate: new Date(obj.startDate),
+			endDate: new Date(obj.endDate),
+			createdAt: new Date(obj.createdAt),
+			updatedAt: new Date(obj.updatedAt)
 		}
 	})
 
-	return res.filter(habit => {
-		let now = new Date()
-		// return habits that we are closer to updatedAt than to startDate, means they are checked-in recently
-		return habit.startDate - now.getTime() >= now.getTime() - habit.updatedAt
-	})
+	return habits
 }
 
-function getBrokenHabits () {
-	return prisma.habits.findMany({
-		where: {
-			userId: '34e3569f-2090-40ea-a519-28d28bc803e0',
-			status: false
-		},
-		orderBy: {
-			updatedAt: 'desc'
+async function getBrokenHabits () {
+	let data = await fetch( process.env.NEXT_PUBLIC_API_URL + '/broken' )
+	const habits = await data.json()
+
+	if( habits.length === 0 ) return []
+
+	// Change all string dates as Date objects
+	habits.forEach((obj, i) => {
+		habits[i] = {
+			...obj,
+			startDate: new Date(obj.startDate),
+			endDate: new Date(obj.endDate),
+			createdAt: new Date(obj.createdAt),
+			updatedAt: new Date(obj.updatedAt)
 		}
 	})
+
+	return habits
 }
 
 export default async function Home() {
@@ -215,7 +212,7 @@ export default async function Home() {
 	const comingHabits = await getComingHabits()
 	const doneHabits = await getDoneHabits()
 	const brokenHabits = await getBrokenHabits()
-
+	console.log(habits, comingHabits, doneHabits, brokenHabits)
 	return (
 		<>
 			<Header>
