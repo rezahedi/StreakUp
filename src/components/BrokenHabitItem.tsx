@@ -34,9 +34,6 @@ export default function BrokenHabitItem({ id, name, repeatPattern, levels, lastL
 
 	return (
 		<li className="flex gap-4 items-center rounded-lg bg-slate-700 my-4 p-4">
-			<div className='aspect-square rounded-full border border-slate-500 p-6'>
-				{lastLevel}/{levels}</div>
-			{/* <input id={id} type="checkbox" className="cursor-pointer" /> */}
 			<div className="flex flex-col grow">
 				<span className="text-slate-400 text-xs">{patternObject.readablePattern}</span>
 				<label htmlFor={id} className={`text-lg py-2 cursor-pointer`+(!active && ` line-through`)}>{name}</label>
@@ -44,9 +41,6 @@ export default function BrokenHabitItem({ id, name, repeatPattern, levels, lastL
 					<span className="flex gap-1 text-slate-400 text-xs">
 						<FontAwesomeIcon icon={faCalendarCheck} className='w-3' />
 						{lastStreak ? `${lastStreak}d best streak` : `Never started`}</span>
-					<time className="flex gap-1 text-slate-400 text-xs">
-						<FontAwesomeIcon icon={faCalendarDays} className='w-3' />
-						{createdAt.toLocaleDateString()}</time>
 				</div>
 			</div>
 			{active && <span className='text-green-500'>Activated!</span>}
