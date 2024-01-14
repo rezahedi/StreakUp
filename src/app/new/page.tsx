@@ -9,6 +9,7 @@ import { patternFormatChecker, getRepeatPatternObject, getStartEndDate } from '@
 import Header from '@/components/templates/Header'
 import { getServerSession } from 'next-auth/next'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import EmojiPicker from './EmojiPicker'
 
 
 async function createHabit (data: FormData) {
@@ -23,6 +24,7 @@ async function createHabit (data: FormData) {
 	// Get posted data
 	let habitName = data.get('habitName')?.valueOf().toString() || ''
 	let repeatPattern = data.get('repeatPattern')?.valueOf().toString() || '1d'
+	let emoji = data.get('emoji')?.valueOf().toString() || ''
 
 	// Sanitize posted data
 	habitName = sanitizeString( habitName )
@@ -43,6 +45,7 @@ async function createHabit (data: FormData) {
 	await prisma.habits.create({
 		data: {
 			name: habitName,
+			emoji,
 			repeatPattern,
 			readablePattern: patternObj.readablePattern,
 			levels: patternObj.levels,
@@ -72,9 +75,12 @@ export default async function Home() {
 				<label htmlFor="name" className="text-slate-400 text-xs">
 					What habit do you want to streak up?
 				</label>
-				<input id="name" name="habitName" type="text" minLength={3} maxLength={50} required
-					placeholder='Example: Read books for 30 min'
-					className="border border-slate-300 rounded px-2 py-1 outline-none text-slate-800" />
+				<div className='flex gap-4 items-center'>
+					<input id="name" name="habitName" type="text" minLength={3} maxLength={50} required
+						placeholder='Example: Read books for 30 min'
+						className="grow border border-slate-300 rounded px-2 py-1 outline-none text-slate-800" />
+					<EmojiPicker name='emoji' defaultValue='🙄' />
+				</div>
 				<label htmlFor="habitType" className="text-slate-400 text-xs">
 					How often do you want to do it?
 				</label>

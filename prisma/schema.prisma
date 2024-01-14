@@ -64,6 +64,7 @@ model VerificationToken {
 model habits {
   id              String @id @default(uuid())
   name            String
+  emoji           String @default("")
   repeatPattern   String @default("1d") // repeat interval, repeat type, repeat on
   readablePattern String @default("Daily") // user readable version of repeatPattern for UI purposes
   // a habit can have multiple check-ins in a day like (morning and evening) or week (Mon, Wed, Fri) so we need to track the check-ins for a habit, so we need two fields one for the total check-ins and one for the last check-in
@@ -72,8 +73,8 @@ model habits {
 
   // start/end date is the duration of check-in for a habit
   // if missed the check-in for a habit, the streak will be reset to 0 and the habit will be inactive
-  startDate DateTime?
-  endDate   DateTime?
+  startDate       DateTime?
+  endDate         DateTime?
 
   // Daily                               = 1d
   // Weekly on Tuesday                   = 1w Tue
