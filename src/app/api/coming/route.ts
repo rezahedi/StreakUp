@@ -1,12 +1,23 @@
 import { NextRequest } from 'next/server'
 import { prisma } from '@/db'
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+
 
 export async function GET(req: NextRequest) {
 
+	const session = await getServerSession(authOptions);
+	if (!session || !session.user) {
+		return new Response(JSON.stringify({ message: "Unauthorized" }), {
+			headers: { 'Content-Type': 'application/json' },
+			status: 401
+		})
+	}
+console.log('api session.user.id', session.user.id)
 	let res = await prisma.habits.findMany({
 		where: {
 			user: {
-				id: '34e3569f-2090-40ea-a519-28d28bc803e0'
+				id: session.user.id
 			},
 			status: true,
 			startDate: {
@@ -30,6 +41,7 @@ export async function GET(req: NextRequest) {
 		// return habits that we are closer to startDate than to updatedAt, means they are coming for checkin
 		return habit.startDate - now.getTime() < now.getTime() - habit.updatedAt
 	})
+	console.log('api json', jsonResult)
 
 	return new Response(JSON.stringify(jsonResult), {
 		headers: { 'Content-Type': 'application/json' },

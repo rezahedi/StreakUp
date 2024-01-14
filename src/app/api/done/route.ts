@@ -1,12 +1,22 @@
 import { NextRequest } from 'next/server'
 import { prisma } from '@/db'
+import { getServerSession } from 'next-auth/next';
+import { authOptions } from '../auth/[...nextauth]/route';
 
 export async function GET(req: NextRequest) {
+
+	const session = await getServerSession(authOptions);
+	if (!session || !session.user) {
+		return new Response(JSON.stringify({ message: "Unauthorized" }), {
+			headers: { 'Content-Type': 'application/json' },
+			status: 401
+		})
+	}
 
 	let res = await prisma.habits.findMany({
 		where: {
 			user: {
-				id: '34e3569f-2090-40ea-a519-28d28bc803e0'
+				id: session.user.id
 			},
 			status: true,
 			startDate: {

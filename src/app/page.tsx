@@ -15,17 +15,20 @@ import {
 } from "@/utils/dates";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-
+import { CustomUser } from "@/type";
 
 async function checkinHabit(id: string) {
   "use server";
+
+  const session = await getServerSession(authOptions);
+  if (!session || !session.user)
+    throw new Error("User not logged in");
 
   // Get data by id
   let habit = await prisma.habits.findFirst({
     where: {
       id,
-      // TODO: Get userId from session
-      userId: "34e3569f-2090-40ea-a519-28d28bc803e0",
+      userId: session.user.id,
     },
   });
 
@@ -51,8 +54,6 @@ async function checkinHabit(id: string) {
   return await prisma.habits.update({
     where: {
       id,
-      // TODO: Get userId from session
-      // userId: '34e3569f-2090-40ea-a519-28d28bc803e0'
     },
     data: {
       startDate,
@@ -66,11 +67,15 @@ async function checkinHabit(id: string) {
 async function activateHabit(id: string) {
   "use server";
 
+  const session = await getServerSession(authOptions);
+  if (!session || !session.user)
+    throw new Error("User not logged in");
+
   // Get data by id
-  let habit = await prisma.habits.findUnique({
+  let habit = await prisma.habits.findFirst({
     where: {
       id,
-      // userId: 'xxx'
+      userId: session.user.id,
     },
   });
 
@@ -93,7 +98,6 @@ async function activateHabit(id: string) {
   return await prisma.habits.update({
     where: {
       id,
-      // userId: 'xxx'
     },
     data: {
       startDate,
@@ -104,12 +108,11 @@ async function activateHabit(id: string) {
 }
 
 // Get all active but missed check-in habits and update them as unactive and streak broken
-async function updateHabits() {
-  "use client";
+async function updateHabits(user: CustomUser) {
+
   const records = await prisma.habits.findMany({
     where: {
-      // TODO: Get userId from session
-      userId: "34e3569f-2090-40ea-a519-28d28bc803e0",
+      userId: user.id,
       status: true,
       endDate: {
         lt: new Date(),
@@ -140,7 +143,7 @@ async function updateHabits() {
 }
 
 async function getHabits() {
-  "use client";
+
   const data = await fetch(process.env.NEXT_PUBLIC_API_URL + "/checkin", { next:{revalidate: 1} });
   const habits = await data.json();
 
@@ -161,9 +164,9 @@ async function getHabits() {
 }
 
 async function getComingHabits() {
-  "use client";
   let data = await fetch(process.env.NEXT_PUBLIC_API_URL + "/coming", { next:{revalidate: 1} });
   const habits = await data.json();
+  console.log('habits', habits)
 
   if (habits.length === 0) return [];
 
@@ -227,14 +230,16 @@ export default async function Home() {
 
   // Get user session token
   const session = await getServerSession(authOptions);
+  if (!session || !session.user)
+    redirect("/api/auth/signin");
 
   // TODO: before getting list of habits, update all missed checkins
-  await updateHabits();
+  await updateHabits(session.user);
   const habits = await getHabits();
   const comingHabits = await getComingHabits();
   const doneHabits = await getDoneHabits();
   const brokenHabits = await getBrokenHabits();
-  console.log('data', habits, comingHabits, doneHabits, brokenHabits);
+  console.log('session', session);
   return (
     <>
       <Header>

@@ -7,10 +7,18 @@ import RepeatPattern from './RepeatPattern'
 import { sanitizeString } from '@/utils/sanitize'
 import { patternFormatChecker, getRepeatPatternObject, getStartEndDate } from '@/utils/dates'
 import Header from '@/components/templates/Header'
+import { getServerSession } from 'next-auth/next'
+import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 
 
 async function createHabit (data: FormData) {
 	'use server'
+
+	// Get user session token
+  const session = await getServerSession(authOptions);
+	if (!session || !session.user) {
+		throw new Error('User not logged in')
+	}
 
 	// Get posted data
 	let habitName = data.get('habitName')?.valueOf().toString() || ''
@@ -41,7 +49,7 @@ async function createHabit (data: FormData) {
 			startDate,
 			endDate,
 			// TODO: Get userId from session
-			userId: '34e3569f-2090-40ea-a519-28d28bc803e0'
+			userId: session.user.id
 		}
 	})
 
@@ -49,7 +57,7 @@ async function createHabit (data: FormData) {
 }
 
 
-export default function Home() {
+export default async function Home() {
 
 	return (
 		<>
