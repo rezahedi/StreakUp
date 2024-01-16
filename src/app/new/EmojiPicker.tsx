@@ -33,6 +33,11 @@ const EmojiPicker = (
   };
 
   useEffect(() => {
+
+    if ( defaultValue === '🙄' ) {
+      buttonRef.current?.querySelector('span')?.classList.add('grayscale');
+    }
+
     const handleClickOutside = (e: MouseEvent) => {
       if (emojiesPanel.current && !emojiesPanel.current.contains(e.target as Node)) {
         setShowPicker(false);
@@ -55,10 +60,10 @@ const EmojiPicker = (
       </button>
 
       {showPicker && (
-        <div className='absolute right-0 border border-slate-300/20 mt-1 bg-slate-800/95 shadow-xl rounded-xl p-2 w-64 grid grid-cols-5 whitespace-nowrap'>
+        <div role='list' className='absolute right-0 border border-slate-300/20 mt-1 bg-slate-800/95 shadow-xl rounded-xl p-2 w-64 grid grid-cols-5 whitespace-nowrap'>
           {emojis.map((emoji, index) => (
             <span
-              key={index}
+              key={index} tabIndex={0} role='listitem'
               className='block text-2xl p-2 cursor-pointer rounded-xl hover:bg-slate-700'
               onClick={() => handleEmojiSelect(emoji)}
             >
