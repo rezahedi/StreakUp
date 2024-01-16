@@ -1,41 +1,17 @@
-import {
-  faCalendarCheck,
-  faCalendarDays,
-} from "@fortawesome/free-regular-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { getRepeatPatternObject, getcomingDate } from "@/utils/dates";
+import { getRepeatPatternObject, getcomingDate } from "@/utils/dates"
+import { faCalendarCheck, faCalendarDays } from "@fortawesome/free-regular-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
-type myProps = {
-  id: string;
-  name: string;
-  repeatPattern: string;
-  levels: number;
-  lastLevel: number;
-  streak: number;
-  lastStreak: number;
-  startDate: Date;
-  createdAt: Date;
-};
+export default function TomorrowItem({ habit }) {
+  const { id, name, repeatPattern, levels, lastLevel, streak, lastStreak, startDate, createdAt } = habit
 
-export default function ComingHabitItem({
-  id,
-  name,
-  repeatPattern,
-  levels,
-  lastLevel,
-  streak,
-  lastStreak,
-  startDate,
-  createdAt,
-}: myProps) {
-  let patternObject = getRepeatPatternObject(repeatPattern);
+  let patternObject = getRepeatPatternObject(repeatPattern)
 
   return (
-    <li className="flex gap-4 items-center rounded-lg bg-slate-700 my-4 p-4">
+    <li className="flex gap-4 items-center rounded-lg bg-slate-100 my-4 p-4" role="listitem">
       <div className="aspect-square rounded-full border border-slate-500 p-6">
         {lastLevel}/{levels}
       </div>
-      {/* <input id={id} type="checkbox" className="cursor-pointer" /> */}
       <div className="flex flex-col grow">
         <span className="text-slate-400 text-xs">
           {patternObject.readablePattern}
@@ -57,5 +33,5 @@ export default function ComingHabitItem({
       </div>
       <div className="whitespace-nowrap">In {getcomingDate(startDate)}</div>
     </li>
-  );
+  )
 }

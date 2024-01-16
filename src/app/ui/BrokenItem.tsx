@@ -1,29 +1,19 @@
-'use client'
-import { useState } from 'react';
-import { faCalendarCheck, faCalendarDays } from '@fortawesome/free-regular-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { getRepeatPatternObject } from '@/utils/dates';
+"use client";
+import { getRepeatPatternObject } from "@/utils/dates"
+import { faCalendarCheck } from "@fortawesome/free-regular-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { useState } from "react"
+import { activateHabit } from "@/app/lib/actions";
 
-
-type myProps = {
-	id: string;
-	name: string;
-	repeatPattern: string;
-	levels: number;
-	lastLevel: number;
-	lastStreak: number;
-	createdAt: Date;
-	activateHabit: (id: string) => void;
-}
-
-export default function BrokenHabitItem({ id, name, repeatPattern, levels, lastLevel, lastStreak, createdAt, activateHabit }: myProps) {
+export default function BrokenItem({ habit }) {
+	const [active, setActive] = useState(false)
+  const { id, name, repeatPattern, levels, lastLevel, lastStreak, createdAt } = habit
 
 	let patternObject = getRepeatPatternObject(repeatPattern)
-	const [active, setActive] = useState(false)
 
-	const handleActivation = async (id: string) => {
+  const handleActivation = async (id: string) => {
 		try {
-			let res = activateHabit(id)
+			let res = await activateHabit(id)
 			if (res)
 				setActive(true)
 
@@ -32,8 +22,8 @@ export default function BrokenHabitItem({ id, name, repeatPattern, levels, lastL
 		}
 	}
 
-	return (
-		<li className="flex gap-4 items-center rounded-lg bg-slate-700 my-4 p-4">
+  return (
+		<li className="flex gap-4 items-center rounded-lg bg-slate-100 my-4 p-4" role="listitem">
 			<div className="flex flex-col grow">
 				<span className="text-slate-400 text-xs">{patternObject.readablePattern}</span>
 				<label htmlFor={id} className={`text-lg py-2 cursor-pointer`+(!active && ` line-through`)}>{name}</label>
@@ -51,5 +41,5 @@ export default function BrokenHabitItem({ id, name, repeatPattern, levels, lastL
 					Activate</button>
 			}
 		</li>
-	)
+  )
 }

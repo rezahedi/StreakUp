@@ -1,36 +1,19 @@
-'use client'
-import { useState } from 'react';
-import RepeatPattern from '@/app/new/RepeatPattern';
-import { redirect } from 'next/navigation';
-import { faCalendarCheck, faCalendarDays } from '@fortawesome/free-regular-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { getRepeatPatternObject, getStartEndDate, patternFormatChecker } from '@/utils/dates';
+"use client";
+import { getRepeatPatternObject } from "@/utils/dates"
+import { faCalendarCheck, faCalendarDays } from "@fortawesome/free-regular-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { useState } from "react"
+import { checkinHabit } from "@/app/lib/actions";
 
-
-type myProps = {
-	id: string;
-	name: string;
-	repeatPattern: string;
-	levels: number;
-	lastLevel: number;
-	streak: number;
-	lastStreak: number;
-	createdAt: Date;
-	checkinHabit: (id: string) => void;
-}
-
-export default function HabitItem(
-	{
-		id, name, repeatPattern, levels, lastLevel, streak, lastStreak, createdAt, checkinHabit
-	}: myProps
-) {
-
-	let patternObject = getRepeatPatternObject(repeatPattern)
+export default function TodayItem({ habit }) {
 	const [checkin, setCheckin] = useState(false)
+  const { id, name, repeatPattern, levels, lastLevel, streak, lastStreak, createdAt } = habit
+
+  let patternObject = getRepeatPatternObject(repeatPattern)
 
 	const handleCheckin = async (id: string) => {
 		try {
-			let res = checkinHabit(id)
+			let res = await checkinHabit(id)
 			if (res)
 				setCheckin(true)
 
@@ -39,11 +22,10 @@ export default function HabitItem(
 		}
 	}
 
-	return (
-		<li className="flex gap-4 items-center rounded-lg bg-slate-700 my-4 p-4">
+  return (
+		<li className="flex gap-4 items-center rounded-lg bg-slate-100 my-4 p-4" role="listitem">
 			<div className='aspect-square rounded-full border border-slate-500 p-6'>
 				{lastLevel}/{levels}</div>
-			{/* <input id={id} type="checkbox" className="cursor-pointer" /> */}
 			<div className="flex flex-col grow">
 				<span className="text-slate-400 text-xs">{patternObject.readablePattern}</span>
 				<label htmlFor={id} className={`text-lg py-2 cursor-pointer`+(checkin && ` line-through`)}>{name}</label>
@@ -66,5 +48,5 @@ export default function HabitItem(
 					Check-in</button>
 			}
 		</li>
-	)
+  )
 }
