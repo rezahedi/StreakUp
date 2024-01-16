@@ -64,12 +64,6 @@ export default async function Home() {
 
 	return (
 		<>
-			<Header>
-				<Link
-					className="border border-slate-300 text-slate-300 rounded px-2 py-1 hover:bg-slate-700 focus-within:bg-slate-700 outline-none flex gap-2"
-					href="..">
-						<FontAwesomeIcon icon={faArrowAltCircleLeft} className='w-4' /> Back</Link>
-			</Header>
 			<h2 className="text-xl text-orange-500 border-b border-orange-500 pb-2 my-4">New Habit:</h2>
 			<form action={createHabit} className="flex flex-col gap-4">
 				<label htmlFor="name" className="text-slate-400 text-xs">
