@@ -1,13 +1,8 @@
-import Link from "next/link";
-import {redirect} from "next/navigation";
 import {prisma} from "@/db";
 import HabitItem from "@/components/HabitItem";
 import DoneHabitItem from "@/components/DoneHabitItem";
 import BrokenHabitItem from "@/components/BrokenHabitItem";
 import ComingHabitItem from "@/components/ComingHabitItem";
-import {faSquarePlus} from "@fortawesome/free-regular-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import Header from "@/components/templates/Header";
 import {
   patternFormatChecker,
   getRepeatPatternObject,
@@ -16,6 +11,8 @@ import {
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { CustomUser } from "@/type";
+import { Signin } from "@/components/templates";
+import { cookies } from 'next/headers';
 
 async function checkinHabit(id: string) {
   "use server";
@@ -227,11 +224,11 @@ async function getBrokenHabits() {
 }
 
 export default async function Home() {
-
+cookies();
   // Get user session token
   const session = await getServerSession(authOptions);
   if (!session || !session.user)
-    redirect("/api/auth/signin");
+    return <Signin />;
 
   // TODO: before getting list of habits, update all missed checkins
   await updateHabits(session.user);
@@ -242,23 +239,6 @@ export default async function Home() {
   console.log('session', session);
   return (
     <>
-      <Header>
-        {session && (
-          <div>
-            <p>Signed in as {session.user && session.user.name}</p>
-            <a href="/api/auth/signout">Sign out by link</a>
-          </div>
-        )}
-        {!session && (
-          <p><a href="/api/auth/signin">Sign in</a></p>
-        )}
-        <Link
-          className="border border-slate-300 text-slate-300 rounded px-2 py-1 hover:bg-slate-700 focus-within:bg-slate-700 outline-none flex gap-2"
-          href="/new"
-        >
-          <FontAwesomeIcon icon={faSquarePlus} className="w-4" /> New Habit
-        </Link>
-      </Header>
       <h2 className="text-xl text-orange-500 border-b border-orange-500 pb-2 my-4">
         Today:
       </h2>
