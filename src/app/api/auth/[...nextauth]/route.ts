@@ -8,8 +8,7 @@ if (
   !process.env.GITHUB_CLIENT_ID ||
   !process.env.GITHUB_SECRET_ID ||
   !process.env.GOOGLE_CLIENT_ID ||
-  !process.env.GOOGLE_SECRET_ID ||
-  !process.env.NEXTAUTH_SECRET
+  !process.env.GOOGLE_SECRET_ID
 ) {
   throw new Error("Auth required env variables are not set");
 }
@@ -29,7 +28,6 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.GITHUB_SECRET_ID,
     })
   ],
-  // secret: process.env.NEXTAUTH_SECRET,
   debug: process.env.NODE_ENV === "development",
   
   callbacks: {
