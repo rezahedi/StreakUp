@@ -9,8 +9,8 @@ export default async function Header() {
 		<header className="flex justify-between items-center mb-8 mx-auto w-full max-w-screen-xl px-2.5 lg:px-20">
 			<h1 className="text-3xl">
 				<Link href="/" className='flex flex-row gap-1 items-center font-medium'>
-					<Image src="/logo-black.png" alt='Logo' width={34} height={34} />
-					Streak<span className='text-orange-500'>Up</span>
+					<Image src="/logo.svg" alt='Logo' width={34} height={34} />
+					StreakUp
 				</Link>
 			</h1>
 			<Link

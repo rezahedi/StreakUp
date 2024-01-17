@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata = {
   title: 'StreakUp Habits App',
   description: 'The next generation of habit tracking App.',
-  icons: '/logo-white.png',
+  icons: '/logo.svg',
 }
 
 export default function RootLayout({
