@@ -48,16 +48,20 @@ export default function Profile() {
           `https://avatars.dicebear.com/api/micah/${session?.user?.name}.svg`
         } alt='Profile' width={34} height={34} />
       </DropdownMenu.Trigger>
-      <DropdownMenu.Content className="w-40 animate-fade-in rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-        <DropdownMenu.Item className="block cursor-pointer px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+      <DropdownMenu.Content align="end" className="w-60 p-4 animate-fade-in rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+        <div className="p-2 pt-0 text-sm text-gray-700">
+          <b className="block font-bold">{user.name}</b>
+          <div className="text-gray-500">{user.email}</div>
+        </div>
+        <DropdownMenu.Item className="block cursor-pointer p-2 text-sm text-gray-700 hover:bg-gray-100"
           onSelect={() => router.push('/profile')}>
           Update Profile
         </DropdownMenu.Item>
-        <DropdownMenu.Item disabled className="block cursor-pointer px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+        <DropdownMenu.Item disabled className="block cursor-pointer p-2 text-sm text-gray-700 hover:bg-gray-100"
           onSelect={() => {}}>
           Delete Account
         </DropdownMenu.Item>
-        <DropdownMenu.Item className="block cursor-pointer px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+        <DropdownMenu.Item className="block cursor-pointer p-2 text-sm text-gray-700 hover:bg-gray-100"
           onSelect={() => signOut()}>
           Sign out
         </DropdownMenu.Item>
