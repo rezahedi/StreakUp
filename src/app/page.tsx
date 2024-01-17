@@ -5,6 +5,7 @@ import { Signin } from "@/components/templates";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { updateHabits } from "./lib/actions";
+import SubHeader from "@/components/templates/SubHeader";
 
 export default async function page()
 {
@@ -17,19 +18,22 @@ export default async function page()
   await updateHabits(session.user);
 
   return (
-    <div className="w-full flex flex-col">
-      <h2>Today</h2>
-      <Suspense fallback={<TodaySkeleton />}>
-        <TodayCard />
-      </Suspense>
-      <h2>Tomorrow</h2>
-      <Suspense fallback={<TodaySkeleton />}>
-        <TomorrowCard />
-      </Suspense>
-      <h2>Broken</h2>
-      <Suspense fallback={<TodaySkeleton />}>
-        <BrokenCard />
-      </Suspense>
-    </div>
+    <>
+      <SubHeader />
+      <div className="mx-auto lg:max-w-screen-xl px-2.5 lg:px-20">
+        <h2>Today</h2>
+        <Suspense fallback={<TodaySkeleton />}>
+          <TodayCard />
+        </Suspense>
+        <h2>Tomorrow</h2>
+        <Suspense fallback={<TodaySkeleton />}>
+          <TomorrowCard />
+        </Suspense>
+        <h2>Broken</h2>
+        <Suspense fallback={<TodaySkeleton />}>
+          <BrokenCard />
+        </Suspense>
+      </div>
+    </>
   )
 }

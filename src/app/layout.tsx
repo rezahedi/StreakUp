@@ -18,7 +18,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} container mx-auto`}>
+      <body className={`${inter.className}`}>
         <Providers>
           <Header />
           {children}

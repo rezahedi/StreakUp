@@ -26,10 +26,10 @@ export default function Profile() {
   // Signed out state
   if ( !session || !session.user ) {
     return (
-      <a href="/api/auth/signin" onClick={handleSignin} className="flex gap-2 items-center">
+      <a href="/api/auth/signin" onClick={handleSignin} className="flex gap-2 items-center px-4 py-2 rounded-md hover:bg-gray-100">
         Signin
         <svg
-          className="w-6 h-6 rounded-full hover:bg-slate-700 grayscale"
+          className="w-7 h-7 rounded-full"
           fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
           <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
         </svg>
@@ -41,9 +41,9 @@ export default function Profile() {
   const { user } = session;
   return (
     <DropdownMenu.Root>
-      <DropdownMenu.Trigger className="flex gap-1 items-center px-4 py-2 rounded-md hover:bg-gray-100">
+      <DropdownMenu.Trigger className="flex gap-2 items-center px-4 py-2 rounded-md hover:bg-gray-100">
         {user.name}
-        <Image className="rounded-full" src={
+        <Image className="w-7 h-7 rounded-full" src={
           user.image ||
           `https://avatars.dicebear.com/api/micah/${session?.user?.name}.svg`
         } alt='Profile' width={34} height={34} />
