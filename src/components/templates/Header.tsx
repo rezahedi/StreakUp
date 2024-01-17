@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { ProfileServer } from '@/components/templates'
+import { Profile } from '@/components/templates'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSquarePlus } from '@fortawesome/free-regular-svg-icons'
 
@@ -19,7 +19,7 @@ export default async function Header() {
           <FontAwesomeIcon icon={faSquarePlus} className="w-4" /> New Habit
 			</Link>
 
-			<ProfileServer key='x' />
+			<Profile key='x' />
 		</header>
 	)
 }

@@ -1,10 +1,14 @@
 "use client";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useSession, signIn, signOut } from "next-auth/react";
 import Skeleton from "react-loading-skeleton";
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+// import { ProfileDelete } from "@/components/templates";
 
 export default function Profile() {
   const {data: session, status} = useSession();
+  const router = useRouter();
 
   const handleSignin = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
@@ -36,12 +40,28 @@ export default function Profile() {
   // Signed in state
   const { user } = session;
   return (
-    <a href="/api/auth/signout" onClick={handleSignout} className="flex gap-2 items-center">
-      {user.name}
-      <Image src={
-        user.image ||
-        `https://avatars.dicebear.com/api/micah/${session?.user?.name}.svg`
-      } alt='Profile' width={34} height={34} />
-    </a>
+    <DropdownMenu.Root>
+      <DropdownMenu.Trigger className="flex gap-1 items-center px-4 py-2 rounded-md hover:bg-gray-100">
+        {user.name}
+        <Image className="rounded-full" src={
+          user.image ||
+          `https://avatars.dicebear.com/api/micah/${session?.user?.name}.svg`
+        } alt='Profile' width={34} height={34} />
+      </DropdownMenu.Trigger>
+      <DropdownMenu.Content className="w-40 animate-fade-in rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+        <DropdownMenu.Item className="block cursor-pointer px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+          onSelect={() => router.push('/profile')}>
+          Update Profile
+        </DropdownMenu.Item>
+        <DropdownMenu.Item disabled className="block cursor-pointer px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+          onSelect={() => {}}>
+          Delete Account
+        </DropdownMenu.Item>
+        <DropdownMenu.Item className="block cursor-pointer px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+          onSelect={() => signOut()}>
+          Sign out
+        </DropdownMenu.Item>
+      </DropdownMenu.Content>
+    </DropdownMenu.Root>
   )
 }
