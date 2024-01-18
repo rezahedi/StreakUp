@@ -6,7 +6,7 @@ import { sanitizeString } from '@/utils/sanitize'
 import { patternFormatChecker, getRepeatPatternObject, getStartEndDate } from '@/utils/dates'
 import Header from '@/components/templates/Header'
 import { getServerSession } from 'next-auth/next'
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { authOptions } from '@/app/lib/auth'
 import EmojiPicker from './EmojiPicker'
 
 
