@@ -3,7 +3,7 @@ import { TodayCard, TomorrowCard, BrokenCard } from '@/app/ui'
 import { TodaySkeleton } from "@/app/ui/skeletons"
 import { Signin } from "@/components/templates";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/app/lib/auth";
 import { updateHabits } from "./lib/actions";
 import SubHeader from "@/components/templates/SubHeader";
 

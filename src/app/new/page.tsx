@@ -1,6 +1,4 @@
 import Link from 'next/link'
-import { faArrowAltCircleLeft } from '@fortawesome/free-regular-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { prisma } from '@/db'
 import { redirect } from 'next/navigation'
 import RepeatPattern from './RepeatPattern'
@@ -80,8 +78,8 @@ export default async function Home() {
 				</label>
 				<RepeatPattern />
 				<div className='flex justify-end gap-2'>
-					<button type="submit" className="border border-slate-300 text-slate-300 rounded px-2 py-1 hover:bg-slate-700 focus-within:bg-slate-700 outline-none">Create</button>
-					<Link href=".." className='border border-slate-300 text-slate-300 rounded px-2 py-1 hover:bg-slate-700 focus-within:bg-slate-700 outline-none'>Cancel</Link>
+					<button type="submit" className="border border-gray-300 rounded px-2 py-1 hover:bg-gray-200">Create</button>
+					<Link href=".." className='border border-gray-300 rounded px-2 py-1 hover:bg-gray-200'>Cancel</Link>
 				</div>
 			</form>
 		</div>
