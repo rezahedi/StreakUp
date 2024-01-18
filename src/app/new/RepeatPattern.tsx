@@ -1,18 +1,21 @@
 "use client"
-import { useState, useEffect, use } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import SelectDayTimes from './SelectDayTimes';
 import SelectWeekDays from './SelectWeekDays';
 
 
 export default function RepeatPattern() {
-	const [customPattern, setCustomPattern] = useState(false);
-	const [repeatType, setRepeatType] = useState('d');
-	const [selectedRepeatOptions, setSelectedRepeatOptions] = useState([]);
+	const [customPattern, setCustomPattern] = useState<boolean>(false);
+	const [repeatNumber, setRepeatNumber] = useState<string>('1');
+	const [repeatType, setRepeatType] = useState<string>('d');
+	const [selectedRepeatOptions, setSelectedRepeatOptions] = useState<string[]>([]);
 
+	const repeatPatternRef = useRef<HTMLInputElement>(null)
+	
 	
 	useEffect(() => {
 		customPattern && handleCustomRepeatPattern()
-	}, [repeatType, selectedRepeatOptions])
+	}, [repeatNumber, repeatType, selectedRepeatOptions])
 
 
 	const callbackSelectedOptions = ( myArray: string[] ) => {
@@ -20,14 +23,13 @@ export default function RepeatPattern() {
 	}
 
 	const handleCustomRepeatPattern = () => {
-		let repeatNumber = document.getElementById('repeatInterval').value
-		let repeatType = document.getElementById('repeatType').value
 
-		let customRepeat = document.getElementById('repeatPattern')
-		customRepeat.value = 
-			repeatNumber
-			+ repeatType
-			+ handleOptionsJoin(selectedRepeatOptions)
+		let customRepeat = repeatPatternRef.current
+		if(customRepeat)
+			customRepeat.value = 
+				repeatNumber
+				+ repeatType
+				+ handleOptionsJoin(selectedRepeatOptions)
 	}
 
 	const handleOptionsJoin = (myArray: string[]) => {
@@ -45,11 +47,11 @@ export default function RepeatPattern() {
 			<>
 				<div className='flex gap-2'>
 					<span>Repeat every</span>
-					<input name="repeatInterval" id="repeatInterval" type='number' min='1' max='31' defaultValue={1}
-						className="border border-slate-300 rounded px-2 py-1 outline-none text-slate-800 w-14" />
-					<select name="repeatType" id="repeatType"
+					<input name="repeatInterval" onChange={(e) => setRepeatNumber(e.target.value)} type='number' min='1' max='31' defaultValue={1}
+						className="border border-gray-300 rounded px-2 py-1 text-gray-800 w-14" />
+					<select name="repeatType"
 						onChange={(e) => setRepeatType(e.target.value)}
-						className="border border-slate-300 rounded px-2 py-1 text-slate-800 w-fit">
+						className="border border-gray-300 rounded px-2 py-1 text-gray-800 w-fit">
 						<option value="d">day</option>
 						<option value="w">week</option>
 					</select>
@@ -63,7 +65,7 @@ export default function RepeatPattern() {
 						<SelectWeekDays defaultValue={['Tuesday']} callback={callbackSelectedOptions} />
 					}
 				</div>
-				<input type="hidden" name="repeatPattern" id="repeatPattern" className='text-slate-800' />
+				<input type="hidden" name="repeatPattern" ref={repeatPatternRef} className='text-gray-800' />
 			</>
 		)
 
@@ -71,7 +73,7 @@ export default function RepeatPattern() {
 		<>
 			{!customPattern && (
 				<select name="repeatPattern" id='habitType' onChange={(e) => e.target.value === 'Custom' && setCustomPattern(true)}
-					className="border border-slate-300 rounded px-2 py-1 text-slate-800">
+					className="border border-gray-300 rounded px-2 py-1 text-gray-800">
 					<option value="1d">Daily</option>
 					<option value="1w Tue">Weekly on Tuesday</option>
 					<option value="1w Mon Tue Wed Thu Fri">Every weekday (Mon to Fri)</option>

@@ -39,9 +39,9 @@ export default function SelectDayTimes( { callback }: MyComponentProps ) {
 	}, [selectedTimes])
 
 
-	const handleToggle = (e, index: number, time: string) => {
+	const handleToggle = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, index: number, time: string) => {
 		e.preventDefault();
-		e.target.blur();
+		// e.target.blur();
 
 		// If 'All Day' is selected, unselect all other times
 		// If noting is selected, select 'All Day'
@@ -84,9 +84,15 @@ export default function SelectDayTimes( { callback }: MyComponentProps ) {
 	)
 }
 
-const Time = ({ time, title, selected, onClick }) => {
+const Time = ({ time, title, selected, onClick }:
+		{
+			time: string,
+			title: string,
+			selected: boolean,
+			onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void }
+	) => {
 	return (
-		<button className={`p-3 rounded-full border cursor-pointer outline-none hover:bg-slate-500 focus:bg-slate-500 ${selected ? 'bg-slate-600 border-slate-100' : 'border-transparent bg-slate-700'}`}
+		<button className={`p-2 rounded-lg border border-gray-300 cursor-pointer hover:bg-gray-200 focus:border ${selected ? 'bg-gray-500' : ''}`}
 			aria-label={title}
 			title={title}
 			onClick={onClick}>{time}</button>

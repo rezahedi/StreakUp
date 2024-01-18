@@ -1,8 +1,11 @@
 import { getRepeatPatternObject, getcomingDate } from "@/utils/dates"
 import { faCalendarCheck, faCalendarDays } from "@fortawesome/free-regular-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { habits } from "@prisma/client"
 
-export default function TomorrowItem({ habit }) {
+
+export default function TomorrowItem({ habit }: { habit: habits })
+{
   const { id, name, repeatPattern, levels, lastLevel, streak, lastStreak, startDate, createdAt } = habit
 
   let patternObject = getRepeatPatternObject(repeatPattern)
@@ -31,7 +34,7 @@ export default function TomorrowItem({ habit }) {
           </time>
         </div>
       </div>
-      <div className="whitespace-nowrap">In {getcomingDate(startDate)}</div>
+      {startDate && <div className="whitespace-nowrap">In {getcomingDate(startDate)}</div>}
     </li>
   )
 }

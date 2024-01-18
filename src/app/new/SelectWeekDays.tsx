@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 
 interface MyComponentProps {
 	defaultValue: string[],
-	callbackSelectedDays: (selectedDays: string[]) => void
+	callback: (selectedDays: string[]) => void
 }
 
 export default function SelectWeekDays ( { defaultValue, callback }: MyComponentProps ) {
@@ -34,9 +34,10 @@ export default function SelectWeekDays ( { defaultValue, callback }: MyComponent
 	}, [selectedDays])
 
 
-	const handleToggle = (e, day: string) => {
+	const handleToggle = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+		, day: string) => {
 		e.preventDefault();
-		e.target.blur();
+		// e.target.blur();
 
 		if (selectedDays.includes(day)) {
 			setSelectedDays( selectedDays.filter(d => d !== day) )
@@ -44,7 +45,6 @@ export default function SelectWeekDays ( { defaultValue, callback }: MyComponent
 			setSelectedDays( [...selectedDays, day] )
 		}
 	}
-
 
 	return (
 		<div className="flex flex-row gap-2">
@@ -59,9 +59,13 @@ export default function SelectWeekDays ( { defaultValue, callback }: MyComponent
 	)
 }
 
-const Day = ({ day, selected, onClick }) => {
+const Day = ({ day, selected, onClick }: {
+	day: string,
+	selected: boolean,
+	onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
+}) => {
 	return (
-		<button className={`p-3 rounded-full border cursor-pointer outline-none hover:bg-slate-500 focus:bg-slate-500 ${selected ? 'bg-slate-600 border-slate-100' : 'bg-slate-700 border-transparent'}`}
+		<button className={`w-10 p-2 aspect-square rounded-lg border border-gray-300 cursor-pointer hover:bg-gray-200 focus:border ${selected ? 'bg-gray-500' : ''}`}
 			aria-label={day}
 			title={day}
 			onClick={onClick}>{day.charAt(0)}</button>

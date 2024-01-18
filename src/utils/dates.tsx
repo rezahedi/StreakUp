@@ -49,7 +49,7 @@ export const getSingular = (repeatType: string): string => {
 		w: 'Weekly',
 		m: 'Monthly'
 	}
-	return words[ repeatType.toLowerCase() ]
+	return words[ repeatType.toLowerCase() as keyof typeof words ]
 }
 
 export const getPlural = (repeatType: string): string => {
@@ -58,8 +58,7 @@ export const getPlural = (repeatType: string): string => {
 		w: 'weeks',
 		m: 'months'
 	}
-	console.log(repeatType, words[ repeatType.toLowerCase() ])
-	return words[ repeatType.toLowerCase() ]
+	return words[ repeatType.toLowerCase() as keyof typeof words ]
 }
 
 // Get the complete word by the short initial letters
@@ -76,24 +75,24 @@ export const getCompleteWord = (short: string): string => {
 		'fri': 'Friday',
 		'sat': 'Saturday'
 	}
-	return days[ short.toLowerCase() ] || short
+	return days[ short.toLowerCase() as keyof typeof days ] || short
 }
 
-export const getSpace = (short: string): string => {
-	let days = {
-		'8am': 'morning',
-		'4pm': 'afternoon',
-		'8pm': 'evening',
-		'sun': 1,
-		'mon': 2,
-		'tue': 3,
-		'wed': 4,
-		'thu': 5,
-		'fri': 6,
-		'sat': 7
-	}
-	return days[ short.toLowerCase() ] || short
-}
+// export const getSpace = (short: string): string => {
+// 	let days = {
+// 		'8am': 'morning',
+// 		'4pm': 'afternoon',
+// 		'8pm': 'evening',
+// 		'sun': '1',
+// 		'mon': '2',
+// 		'tue': '3',
+// 		'wed': '4',
+// 		'thu': '5',
+// 		'fri': '6',
+// 		'sat': '7'
+// 	}
+// 	return days[ short.toLowerCase() as keyof typeof days ] || short
+// }
 
 
 interface startEndObject {
@@ -143,8 +142,8 @@ export const getStartEndDate = (patternObject: patternObject, lastLevel: number)
 		}
 
 		if ( patternObject.repeatOn.length ){
-			startTime = 24 + timeFrames[ patternObject.repeatOn[ lastLevel ] ].start
-			endTime = 24 + timeFrames[ patternObject.repeatOn[ lastLevel ] ].end
+			startTime = 24 + timeFrames[ patternObject.repeatOn[ lastLevel ] as keyof typeof timeFrames ].start
+			endTime = 24 + timeFrames[ patternObject.repeatOn[ lastLevel ] as keyof typeof timeFrames ].end
 		}
 
 		let startDate = new Date()

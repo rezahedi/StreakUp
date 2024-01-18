@@ -4,10 +4,13 @@ import { faCalendarCheck } from "@fortawesome/free-regular-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useState } from "react"
 import { activateHabit } from "@/app/lib/actions";
+import { habits } from "@prisma/client";
 
-export default function BrokenItem({ habit }) {
+
+export default function BrokenItem({ habit }: { habit: habits })
+{
 	const [active, setActive] = useState(false)
-  const { id, name, repeatPattern, levels, lastLevel, lastStreak, createdAt } = habit
+  const { id, name, repeatPattern, lastStreak } = habit
 
 	let patternObject = getRepeatPatternObject(repeatPattern)
 

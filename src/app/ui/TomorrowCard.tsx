@@ -1,7 +1,9 @@
 import { fetchTomorrowData } from "@/app/lib/data"
 import { TomorrowItem } from "@/app/ui";
 
-export default async function TomorrowCard() {
+
+export default async function TomorrowCard()
+{
   const data = await fetchTomorrowData();
 
   if ( data === null )

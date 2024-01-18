@@ -4,8 +4,11 @@ import { faCalendarCheck, faCalendarDays } from "@fortawesome/free-regular-svg-i
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useState } from "react"
 import { checkinHabit } from "@/app/lib/actions";
+import { habits } from "@prisma/client";
 
-export default function TodayItem({ habit }) {
+
+export default function TodayItem({ habit }: { habit: habits })
+{
 	const [checkin, setCheckin] = useState(false)
   const { id, name, repeatPattern, levels, lastLevel, streak, lastStreak, createdAt } = habit
 
