@@ -6,8 +6,9 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider = "postgresql"
+  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
 model Account {
@@ -16,17 +17,19 @@ model Account {
   type               String
   provider           String
   providerAccountId  String
-  refresh_token      String?
-  access_token       String?
+  refresh_token      String?  @db.Text
+  access_token       String?  @db.Text
   expires_at         Int?
   token_type         String?
   scope              String?
-  id_token           String?
+  id_token           String?  @db.Text
   session_state      String?
 
   user               User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+
+  @@map("streakup_accounts")
 }
 
 model Session {
@@ -35,6 +38,8 @@ model Session {
   userId          String
   expires         DateTime
   user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("streakup_sessions")
 }
 
 model User {
@@ -51,6 +56,8 @@ model User {
   tokens          Int      @default(10)
   level           Int      @default(1)
   habits          habits[]
+
+  @@map("streakup_users")
 }
 
 model VerificationToken {
@@ -59,6 +66,8 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+
+  @@map("streakup_verificationtokens")
 }
 
 model habits {
@@ -125,4 +134,6 @@ model habits {
   updatedAt DateTime @updatedAt
   userId    String
   user      User    @relation(fields: [userId], references: [id])
+
+  @@map("streakup_habits")
 }
