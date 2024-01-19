@@ -3,6 +3,7 @@ import ExampleHabit from "./ExampleHabit";
 import Hero from "./Hero";
 import Stats from "./Stats";
 import GithubStar from "./GithubStar";
+import ProductIntro from "./ProductIntro";
 
 export {
   ShadowHabit,
@@ -10,4 +11,5 @@ export {
   Hero,
   Stats,
   GithubStar,
+  ProductIntro,
 };

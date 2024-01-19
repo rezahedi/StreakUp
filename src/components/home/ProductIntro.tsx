@@ -1,6 +1,6 @@
-import { Hero, ExampleHabit, ShadowHabit, Stats, GithubStar } from "../home"
+import { Hero, ExampleHabit, ShadowHabit, Stats, GithubStar } from "@/components/home"
 
-function Signin() {
+function ProductIntro() {
   return (
     <>
       <div className="mx-auto max-w-md sm:max-w-lg text-center">
@@ -24,4 +24,4 @@ function Signin() {
   )
 }
 
-export default Signin
+export default ProductIntro
