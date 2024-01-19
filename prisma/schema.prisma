@@ -28,8 +28,6 @@ model Account {
   user               User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
-
-  @@map("streakup_accounts")
 }
 
 model Session {
@@ -38,8 +36,6 @@ model Session {
   userId          String
   expires         DateTime
   user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@map("streakup_sessions")
 }
 
 model User {
@@ -56,8 +52,6 @@ model User {
   tokens          Int      @default(10)
   level           Int      @default(1)
   habits          habits[]
-
-  @@map("streakup_users")
 }
 
 model VerificationToken {
@@ -66,8 +60,6 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
-
-  @@map("streakup_verificationtokens")
 }
 
 model habits {
@@ -134,6 +126,4 @@ model habits {
   updatedAt DateTime @updatedAt
   userId    String
   user      User    @relation(fields: [userId], references: [id])
-
-  @@map("streakup_habits")
 }
