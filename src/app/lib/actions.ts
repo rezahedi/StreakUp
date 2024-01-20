@@ -9,6 +9,7 @@ import {
   getStartEndDate,
 } from "@/utils/dates";
 import { CustomUser } from "@/type";
+import { sanitizeString } from "@/utils/sanitize";
 
 /**
  * Update habit status as checked-in
@@ -139,4 +140,50 @@ export async function activateHabit(id: string) {
       status: true,
     },
   });
+}
+
+/**
+ * Create new habit
+ */
+export async function createHabit(data: FormData) {
+	'use server'
+
+	// Get user session token
+  const session = await getServerSession(authOptions);
+	if (!session || !session.user)
+		throw new Error('User not logged in')
+
+	// Get posted data
+	let habitName = data.get('habitName')?.valueOf().toString() || ''
+	let repeatPattern = data.get('repeatPattern')?.valueOf().toString() || '1d'
+	let emoji = data.get('emoji')?.valueOf().toString() || ''
+
+	// Sanitize posted data
+	habitName = sanitizeString( habitName )
+	repeatPattern = sanitizeString( repeatPattern )
+
+	// Validate posted data
+	if ( typeof habitName !== 'string' || habitName.length === 0 )
+		throw new Error('Habit name Error');
+	if ( typeof repeatPattern !== 'string' || repeatPattern.length === 0 || !patternFormatChecker(repeatPattern) )
+		throw new Error('Habit repeat type Error');
+
+	// Get pattern object
+	let patternObj = getRepeatPatternObject(repeatPattern)
+
+	// calculate first checkin start/end dates
+	const {startDate, endDate} = getStartEndDate (patternObj, 0)
+	
+	return await prisma.habits.create({
+		data: {
+			name: habitName,
+			emoji,
+			repeatPattern,
+			readablePattern: patternObj.readablePattern,
+			levels: patternObj.levels,
+			startDate,
+			endDate,
+			userId: session.user.id
+		}
+	})
 }
