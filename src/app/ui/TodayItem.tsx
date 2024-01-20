@@ -7,23 +7,19 @@ import { checkinHabit } from "@/app/lib/actions";
 import { habits } from "@prisma/client";
 
 
-export default function TodayItem({ habit, action }: { habit: habits, action: Function })
-{
+export default function TodayItem(
+	{ habit, action }:
+	{ habit: habits, action: (id: string) => Promise<boolean> }
+) {
 	const [checkin, setCheckin] = useState(false)
   const { id, name, repeatPattern, levels, lastLevel, streak, lastStreak, createdAt } = habit
 
   let patternObject = getRepeatPatternObject(repeatPattern)
 
-	const handleCheckin = async (id: string) => {
-		action(habit)
-		try {
-			let res = await checkinHabit(id)
-			if (res)
-				setCheckin(true)
-
-		} catch (error) {
-			console.error(error)
-		}
+	const handleClick = async (id: string) => {
+		let res = await action(id)
+		if (res)
+			setCheckin(true)
 	}
 
   return (
@@ -47,7 +43,7 @@ export default function TodayItem({ habit, action }: { habit: habits, action: Fu
 			{checkin && <span className='text-green-500'>Checked in</span>}
 			{!checkin && 
 				<button
-					onClick={e => handleCheckin(id)}
+					onClick={e => handleClick(id)}
 					className='border text-orange-500 border-orange-500 rounded px-2 py-1 hover:bg-orange-500 hover:bg-opacity-20 focus-within:bg-orange-500 focus-within:bg-opacity-20 whitespace-nowrap'>
 					Check-in</button>
 			}

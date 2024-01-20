@@ -6,6 +6,7 @@ import { habits } from "@prisma/client";
 import { TodaySkeleton } from "@/app/ui/skeletons";
 import { BrokenItem, NoHabits, TodayItem, TomorrowItem, Welcome } from "@/app/ui";
 import { filterToday, filterTomorrow, filterBroken } from "@/app/lib/filters";
+import { activateHabit, checkinHabit } from "@/app/lib/actions";
 
 export default function Dashboard() {
   const [habits, setHabits] = useState<habits[] | null>(null);
@@ -38,12 +39,44 @@ export default function Dashboard() {
     setBroken( filterBroken(habits) );
   }, [habits]);
 
-  const checkinAction = async (habit: habits) => {
-    console.log('checkinAction', habit);
+  const checkinAction = async (id: string): Promise<boolean> => {
+    if (habits === null) return false;
+
+		try {
+			let res = await checkinHabit(id)
+			if (res) {
+        // Update habits state
+        let updatedHabits = habits.map(habit => habit.id === id ? { ...res } : habit)
+        setHabits(updatedHabits)
+        
+        return true;
+      }
+
+		} catch (error) {
+			console.error(error)
+		}
+
+    return false
   }
 
-  const activateAction = async (habit: habits) => {
-    console.log('activateAction', habit);
+  const activateAction = async (id: string): Promise<boolean> => {
+    if (habits === null) return false;
+
+		try {
+			let res = await activateHabit(id)
+			if (res) {
+        // Update habits state
+        let updatedHabits = habits.map(habit => habit.id === id ? { ...res } : habit)
+        setHabits(updatedHabits)
+				
+        return true;
+      }
+
+		} catch (error) {
+			console.error(error)
+		}
+
+    return false
   }
 
   return (
@@ -53,7 +86,7 @@ export default function Dashboard() {
       {habits && (
         <>
           {habits.length === 0 && <Welcome />}
-          {habits.length !== 0 && (
+          {habits.length > 0 && (
             <>
               <h2>Today</h2>
               {today.length === 0 && <NoHabits />}

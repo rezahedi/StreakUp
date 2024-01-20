@@ -3,27 +3,22 @@ import { getRepeatPatternObject } from "@/utils/dates"
 import { faCalendarCheck } from "@fortawesome/free-regular-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useState } from "react"
-import { activateHabit } from "@/app/lib/actions";
 import { habits } from "@prisma/client";
 
 
-export default function BrokenItem({ habit, action }: { habit: habits, action: Function })
-{
+export default function BrokenItem(
+	{ habit, action }:
+	{ habit: habits, action: (id: string) => Promise<boolean> }
+) {
 	const [active, setActive] = useState(false)
   const { id, name, repeatPattern, lastStreak } = habit
 
 	let patternObject = getRepeatPatternObject(repeatPattern)
 
-  const handleActivation = async (id: string) => {
-		action(habit)
-		try {
-			let res = await activateHabit(id)
-			if (res)
-				setActive(true)
-
-		} catch (error) {
-			console.error(error)
-		}
+  const handleClick = async (id: string) => {
+		let res = await action(id)
+		if (res)
+			setActive(true)
 	}
 
   return (
@@ -40,7 +35,7 @@ export default function BrokenItem({ habit, action }: { habit: habits, action: F
 			{active && <span className='text-green-500'>Activated!</span>}
 			{!active && 
 				<button
-					onClick={e => handleActivation(id)}
+					onClick={e => handleClick(id)}
 					className='border text-orange-500 border-orange-500 rounded px-2 py-1 hover:bg-orange-500 hover:bg-opacity-20 focus-within:bg-orange-500 focus-within:bg-opacity-20 whitespace-nowrap'>
 					Activate</button>
 			}
