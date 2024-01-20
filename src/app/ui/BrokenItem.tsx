@@ -7,7 +7,7 @@ import { activateHabit } from "@/app/lib/actions";
 import { habits } from "@prisma/client";
 
 
-export default function BrokenItem({ habit }: { habit: habits })
+export default function BrokenItem({ habit, action }: { habit: habits, action: Function })
 {
 	const [active, setActive] = useState(false)
   const { id, name, repeatPattern, lastStreak } = habit
@@ -15,6 +15,7 @@ export default function BrokenItem({ habit }: { habit: habits })
 	let patternObject = getRepeatPatternObject(repeatPattern)
 
   const handleActivation = async (id: string) => {
+		action(habit)
 		try {
 			let res = await activateHabit(id)
 			if (res)

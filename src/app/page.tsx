@@ -1,6 +1,4 @@
-import { Suspense } from "react"
-import { TodayCard, TomorrowCard, BrokenCard } from '@/app/ui'
-import { TodaySkeleton } from "@/app/ui/skeletons"
+import { Dashboard } from '@/app/ui'
 import { ProductIntro } from "@/components/home";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/app/lib/auth";
@@ -20,20 +18,7 @@ export default async function page()
   return (
     <>
       <SubHeader />
-      <div className="mx-auto lg:max-w-screen-xl px-2.5 lg:px-20">
-        <h2>Today</h2>
-        <Suspense fallback={<TodaySkeleton />}>
-          <TodayCard />
-        </Suspense>
-        <h2>Tomorrow</h2>
-        <Suspense fallback={<TodaySkeleton />}>
-          <TomorrowCard />
-        </Suspense>
-        <h2>Broken</h2>
-        <Suspense fallback={<TodaySkeleton />}>
-          <BrokenCard />
-        </Suspense>
-      </div>
+      <Dashboard />
     </>
   )
 }

@@ -7,7 +7,7 @@ import { checkinHabit } from "@/app/lib/actions";
 import { habits } from "@prisma/client";
 
 
-export default function TodayItem({ habit }: { habit: habits })
+export default function TodayItem({ habit, action }: { habit: habits, action: Function })
 {
 	const [checkin, setCheckin] = useState(false)
   const { id, name, repeatPattern, levels, lastLevel, streak, lastStreak, createdAt } = habit
@@ -15,6 +15,7 @@ export default function TodayItem({ habit }: { habit: habits })
   let patternObject = getRepeatPatternObject(repeatPattern)
 
 	const handleCheckin = async (id: string) => {
+		action(habit)
 		try {
 			let res = await checkinHabit(id)
 			if (res)
