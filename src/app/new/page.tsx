@@ -1,64 +1,17 @@
 import Link from 'next/link'
-import { prisma } from '@/db'
-import { redirect } from 'next/navigation'
-import RepeatPattern from './RepeatPattern'
-import { sanitizeString } from '@/utils/sanitize'
-import { patternFormatChecker, getRepeatPatternObject, getStartEndDate } from '@/utils/dates'
-import Header from '@/components/templates/Header'
-import { getServerSession } from 'next-auth/next'
-import { authOptions } from '@/app/lib/auth'
-import EmojiPicker from './EmojiPicker'
-
-
-async function createHabit (data: FormData) {
-	'use server'
-
-	// Get user session token
-  const session = await getServerSession(authOptions);
-	if (!session || !session.user) {
-		throw new Error('User not logged in')
-	}
-
-	// Get posted data
-	let habitName = data.get('habitName')?.valueOf().toString() || ''
-	let repeatPattern = data.get('repeatPattern')?.valueOf().toString() || '1d'
-	let emoji = data.get('emoji')?.valueOf().toString() || ''
-
-	// Sanitize posted data
-	habitName = sanitizeString( habitName )
-	repeatPattern = sanitizeString( repeatPattern )
-
-	// Validate posted data
-	if ( typeof habitName !== 'string' || habitName.length === 0 )
-		throw new Error('Habit name Error');
-	if ( typeof repeatPattern !== 'string' || repeatPattern.length === 0 || !patternFormatChecker(repeatPattern) )
-		throw new Error('Habit repeat type Error');
-
-	// Get pattern object
-	let patternObj = getRepeatPatternObject(repeatPattern)
-
-	// calculate first checkin start/end dates
-	const {startDate, endDate} = getStartEndDate (patternObj, 0)
-	
-	await prisma.habits.create({
-		data: {
-			name: habitName,
-			emoji,
-			repeatPattern,
-			readablePattern: patternObj.readablePattern,
-			levels: patternObj.levels,
-			startDate,
-			endDate,
-			// TODO: Get userId from session
-			userId: session.user.id
-		}
-	})
-
-	redirect('/')
-}
-
+import RepeatPattern from '@/app/new/RepeatPattern'
+import EmojiPicker from '@/app/new/EmojiPicker'
+import { createHabit } from '@/app/lib/actions'
+import { getServerSession } from "next-auth/next";
+import { authOptions } from '@/app/lib/auth';
+import { redirect } from 'next/navigation';
 
 export default async function Home() {
+
+  // Get user session token
+  const session = await getServerSession(authOptions);
+  if (!session || !session.user)
+    redirect('/')
 
 	return (
 		<div className='mx-auto lg:max-w-screen-xl px-2.5 lg:px-20'>
