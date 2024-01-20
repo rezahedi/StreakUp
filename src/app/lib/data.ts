@@ -84,6 +84,7 @@ export const fetchBrokenData = async () =>
 	})
 }
 
+// Fetch all habits but limited to 20
 export const fetchAllData = async () =>
 {
 	await new Promise(resolve => setTimeout(resolve, 1000));
@@ -102,6 +103,7 @@ export const fetchAllData = async () =>
 		},
 		orderBy: {
 			startDate: 'desc'
-		}
+		},
+		take: 20
 	})
 }
