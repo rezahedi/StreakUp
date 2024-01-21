@@ -5,7 +5,7 @@ import { createHabit } from '@/app/lib/actions'
 import { getServerSession } from "next-auth/next";
 import { authOptions } from '@/app/lib/auth';
 import { redirect } from 'next/navigation';
-import Modal from "@/components/Modal";
+import ModalRadix from "@/components/ModalRadix";
 
 export default async function NewModal() {
 
@@ -15,7 +15,8 @@ export default async function NewModal() {
     redirect('/')
 
 	return (
-    <Modal className="w-full max-w-lg bg-white shadow-lg rounded-lg p-8">
+    // <Modal className="w-full max-w-lg bg-white shadow-lg rounded-lg p-8">
+			<ModalRadix>
 			<h2 className="text-xl text-orange-500 border-b border-orange-500 pb-2 my-4">New Habit:</h2>
 			<form action={createHabit} className="flex flex-col gap-4">
 				<label htmlFor="name" className="text-slate-400 text-xs">
@@ -36,6 +37,7 @@ export default async function NewModal() {
 					<Link href=".." className='border border-gray-300 rounded px-2 py-1 hover:bg-gray-200'>Cancel</Link>
 				</div>
 			</form>
-    </Modal>
+			</ModalRadix>
+    // </Modal>
 	)
 }
