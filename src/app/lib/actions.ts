@@ -68,7 +68,7 @@ export async function updateHabits(user: CustomUser) {
   const records = await prisma.habits.findMany({
     where: {
       userId: user.id,
-      status: true,
+      status: 1,
       endDate: {
         lt: new Date(),
       },
@@ -83,7 +83,7 @@ export async function updateHabits(user: CustomUser) {
         id: record.id,
       },
       data: {
-        status: false,
+        status: 0,
         lastStreak: bestStreak,
         streak: 0,
         lastLevel: 0,
@@ -137,7 +137,7 @@ export async function activateHabit(id: string) {
     data: {
       startDate,
       endDate,
-      status: true,
+      status: 1,
     },
   });
 }

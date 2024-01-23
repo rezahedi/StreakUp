@@ -4,11 +4,11 @@ export const filterToday = (habits: habits[]) =>
 {
   let data: habits[];
 
-  // Filter by status true, startDate <= now =< endDate
+  // Filter by status=1, startDate <= now =< endDate
   data = habits.filter(habit => {
     const now = new Date();
     return (
-      habit.status &&
+      habit.status === 1 &&
       habit.startDate && habit.endDate &&
       habit.startDate <= now && habit.endDate >= now
     )
@@ -24,11 +24,11 @@ export const filterTomorrow = (habits: habits[]) =>
 {
   let data: habits[];
 
-  // Filter by status true, startDate >= now
+  // Filter by status=1, startDate >= now
   data = habits.filter(habit => {
     const now = new Date();
     return (
-      habit.status &&
+      habit.status === 1 &&
       habit.startDate &&
       habit.startDate >= now
     )
@@ -44,11 +44,11 @@ export const filterBroken = (habits: habits[]) =>
 {
   let data: habits[];
 
-  // Filter by status false
+  // Filter by status=0
   data = habits.filter(habit => {
     const now = new Date();
     return (
-      !habit.status
+      habit.status === 0
     )
   })
 

@@ -19,7 +19,7 @@ export const fetchTodayData = async () =>
 			user: {
 				id: user.id
 			},
-			status: true,
+			status: 1,
 			startDate: {
 				lte: new Date()
 			},
@@ -50,7 +50,7 @@ export const fetchTomorrowData = async () =>
 			user: {
 				id: user.id
 			},
-			status: true,
+			status: 1,
 			startDate: {
 				gte: now,
 			},
@@ -76,7 +76,7 @@ export const fetchBrokenData = async () =>
 			user: {
 				id: user.id
 			},
-			status: false
+			status: 0
 		},
 		orderBy: {
 			updatedAt: 'desc'

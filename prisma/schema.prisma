@@ -120,8 +120,8 @@ model habits {
   lastStreak   Int      @default(0) // last streak before the current streak
   streakBreaks Int      @default(0) // number of times the streak was broken
 
-  // active/inactive when streak is broken the habit will be inactive
-  status Boolean @default(true)
+  // active=1/broken=0/finished=2 finished when the goal reached
+  status       Int @default(1)
 
   updatedAt DateTime @updatedAt
   userId    String
