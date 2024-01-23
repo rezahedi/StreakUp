@@ -72,6 +72,13 @@ model habits {
   levels          Int    @default(1) // total check-ins
   lastLevel       Int    @default(0) // last check-in
 
+  goal            Int    @default(30) // goal is the number of check-ins required to finish a habit
+  // goal reached when streak == goal
+
+  streak       Int      @default(0) // current streak
+  lastStreak   Int      @default(0) // last streak before the current streak
+  streakBreaks Int      @default(0) // number of times the streak was broken
+
   // start/end date is the duration of check-in for a habit
   // if missed the check-in for a habit, the streak will be reset to 0 and the habit will be inactive
   startDate       DateTime?
@@ -116,9 +123,6 @@ model habits {
   // because it's not make sense to select more than 3 days in a month when we have weeks and days options
 
   createdAt    DateTime @default(now())
-  streak       Int      @default(0) // current streak
-  lastStreak   Int      @default(0) // last streak before the current streak
-  streakBreaks Int      @default(0) // number of times the streak was broken
 
   // active=1/broken=0/finished=2 finished when the goal reached
   status       Int @default(1)
