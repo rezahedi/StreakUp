@@ -220,9 +220,23 @@ export const getWeekDayNumber = (dayShortName: string): number => {
 export const getcomingDate = (startDate: Date): string => {
 	
 	let now = new Date()
-	let remindedTime = startDate.getTime() - now.getTime()
+	let remainingMinutes = Math.round( ( startDate.getTime() - now.getTime() ) / 1000 / 60 )
 
-	let days = Math.floor( remindedTime / (1000 * 60 * 60) )
+	// return remaining minutes if less than 1 hour, remaining hours if less than 1 day, else return remaining days
+	if ( remainingMinutes < 5 )
+		return `few minutes`
 
-	return `${days} hours`
+	if ( remainingMinutes < 55 )
+		return `${remainingMinutes} minutes`
+	
+	let remainingHours = Math.round( remainingMinutes / 60 )
+	if ( remainingHours === 1 )
+		return `an hour`
+	if ( remainingHours < 22 )
+		return `${remainingHours} hours`
+	
+	let remainingDays = Math.round( remainingHours / 24 )
+	if ( remainingDays === 1 )
+		return `next day`
+	return `${remainingDays} days`
 }
