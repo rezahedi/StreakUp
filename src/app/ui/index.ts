@@ -5,6 +5,7 @@ import Dashboard from './Dashboard';
 import Welcome from './Welcome';
 import CreateHabitBtn from './CreateHabitBtn';
 import NoHabits from './NoHabits';
+import ProgressBar from './ProgressBar';
 
 export {
   TodayItem,
@@ -14,4 +15,5 @@ export {
   Welcome,
   CreateHabitBtn,
   NoHabits,
+  ProgressBar,
 };
