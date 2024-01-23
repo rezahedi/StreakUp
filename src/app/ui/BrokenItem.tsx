@@ -4,6 +4,7 @@ import { faCalendarCheck } from "@fortawesome/free-regular-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useState } from "react"
 import { habits } from "@prisma/client";
+import { ProgressBar } from "@/app/ui"
 
 
 export default function BrokenItem(
@@ -11,7 +12,7 @@ export default function BrokenItem(
 	{ habit: habits, action: (id: string) => Promise<boolean> }
 ) {
 	const [active, setActive] = useState(false)
-  const { id, name, repeatPattern, lastStreak } = habit
+  const { id, name, emoji, repeatPattern, goal, lastStreak } = habit
 
 	let patternObject = getRepeatPatternObject(repeatPattern)
 
@@ -23,9 +24,12 @@ export default function BrokenItem(
 
   return (
 		<li className="flex gap-4 items-center rounded-lg bg-slate-100 my-4 p-4" role="listitem">
+			<div className='aspect-square'>
+				<ProgressBar size={90} progress={0} label={`${goal} days`} />
+			</div>
 			<div className="flex flex-col grow">
 				<span className="text-slate-400 text-xs">{patternObject.readablePattern}</span>
-				<label htmlFor={id} className={`text-lg py-2 cursor-pointer`+(!active && ` line-through`)}>{name}</label>
+				<div className={`text-lg text-slate-500 py-2`+(!active && ` line-through`)}>{emoji} {name}</div>
 				<div className='flex gap-8'>
 					<span className="flex gap-1 text-slate-400 text-xs">
 						<FontAwesomeIcon icon={faCalendarCheck} className='w-3' />
