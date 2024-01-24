@@ -24,7 +24,7 @@ export default function Sidebar() {
               Reached Goal
             </Link>
           </li>
-          <li>
+          <li className='hidden lg:block'>
             <hr className='my-2 border-gray-300' />
           </li>
           <li>
