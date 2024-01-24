@@ -1,10 +1,12 @@
 import { Hero, ExampleHabit, ShadowHabit, Stats, GithubStar } from "@/components/home"
+import { CustomUser } from "@/type"
 
-function ProductIntro() {
+function ProductIntro({ user }: { user?: CustomUser}) {
   return (
     <>
       <div className="mx-auto max-w-md sm:max-w-lg text-center">
-        <Hero />
+        {user && <Hero loggedIn />}
+        {!user && <Hero />}
         <ul className="my-5 grid gap-2">
           <ExampleHabit habit={{name:'Exercise for 30 mins', repeatPattern: 'Every Morning', emoji: '🏋️', status: 'Done'}} />
           <ExampleHabit habit={{name:'Drink Water', repeatPattern: 'Daily', emoji: '🥛', status: 'Check-in'}} />

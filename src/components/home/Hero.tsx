@@ -1,5 +1,6 @@
+import Link from 'next/link'
 
-export default function Hero() {
+export default function Hero({ loggedIn = false }: { loggedIn?: boolean }) {
   return (
     <div className="flex flex-col gap-5 py-12 px-2.5 sm:px-0">
       <h1 className="font-display text-4xl font-bold leading-[1.15] text-black sm:text-6xl sm:leading-[1.15]">
@@ -8,7 +9,12 @@ export default function Hero() {
       </h1>
       <h2 className="text-gray-600 sm:text-xl">StreakUp is the open-source habit management application for modern people who want to build a lifestyle that lasts.</h2>
       <div className="mx-auto space-x-4">
-        <a href="/api/auth/signin" className="rounded-full border border-black bg-black px-5 py-2 text-sm text-white shadow-lg transition-all hover:bg-white hover:text-black">Start Building</a>
+        {loggedIn &&
+          <Link href="/dashboard" className="rounded-full border border-black bg-black px-5 py-2 text-sm text-white shadow-lg transition-all hover:bg-white hover:text-black">Go to Dashboard</Link>
+        }
+        {!loggedIn &&
+          <Link href="/api/auth/signin" className="rounded-full border border-black bg-black px-5 py-2 text-sm text-white shadow-lg transition-all hover:bg-white hover:text-black">Start Building</Link>
+        }
       </div>
     </div>
   )

@@ -1,8 +1,7 @@
 import '@/app/globals.css'
 import { Inter } from 'next/font/google'
 import { Providers } from "@/app/providers";
-import { Footer, Header, SubHeader } from '@/components/templates';
-import { Sidebar } from '@/app/ui';
+import { Footer, Header } from '@/components/templates';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -24,13 +23,7 @@ export default function RootLayout({
       <body className={`bg-gray-100 ${inter.className}`}>
         <Providers>
           <Header />
-          <SubHeader />
-          <div className='mx-auto lg:max-w-screen-xl px-2.5 lg:px-20'>
-            <div className='grid grid-cols-1 gap-5 lg:grid-cols-7'>
-              <Sidebar />
-              {children}
-            </div>
-          </div>
+          {children}
           <Footer />
         </Providers>
         {modal}
