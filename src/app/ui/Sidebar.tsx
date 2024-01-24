@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faCalendarXmark, faChessQueen, faRectangleList } from '@fortawesome/free-regular-svg-icons'
+import { faCalendarXmark, faChessQueen, faIdBadge, faRectangleList } from '@fortawesome/free-regular-svg-icons'
 
 export default function Sidebar() {
   return (
@@ -22,6 +22,15 @@ export default function Sidebar() {
             <Link className='flex gap-2 items-center rounded px-4 py-2 hover:bg-gray-200 focus-within:bg-gray-200 transition-all duration-75' href="/dashboard/finished">
               <FontAwesomeIcon icon={faChessQueen} className='w-4' />
               Reached Goal
+            </Link>
+          </li>
+          <li>
+            <hr className='my-2 border-gray-300' />
+          </li>
+          <li>
+            <Link className='flex gap-2 items-center rounded px-4 py-2 hover:bg-gray-200 focus-within:bg-gray-200 transition-all duration-75' href="/dashboard/profile">
+              <FontAwesomeIcon icon={faIdBadge} className='w-4' />
+              Profile
             </Link>
           </li>
         </ul>
