@@ -3,6 +3,8 @@ import TomorrowItem from './TomorrowItem';
 import BrokenItem from './BrokenItem';
 import FinishedItem from './FinishedItem';
 import DashboardCard from './DashboardCard';
+import BrokenCard from './BrokenCard';
+import FinishedCard from './FinishedCard';
 import Welcome from './Welcome';
 import CreateHabitBtn from './CreateHabitBtn';
 import NoHabits from './NoHabits';
@@ -16,6 +18,8 @@ export {
   BrokenItem,
   FinishedItem,
   DashboardCard,
+  BrokenCard,
+  FinishedCard,
   Welcome,
   CreateHabitBtn,
   NoHabits,
