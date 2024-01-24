@@ -41,8 +41,8 @@ export default async function NewModal() {
 					days
 				</div>
 				<div className='flex justify-end gap-2'>
-					<button type="submit" className="border border-gray-300 rounded px-2 py-1 hover:bg-gray-200">Create</button>
-					<Link href=".." className='border border-gray-300 rounded px-2 py-1 hover:bg-gray-200'>Cancel</Link>
+					<button type="submit" className="border text-orange-500 border-orange-500 rounded px-2 py-1 hover:bg-orange-500 hover:bg-opacity-20 focus-within:bg-orange-500 focus-within:bg-opacity-20 active:scale-95 transition-all duration-75">Create</button>
+					<Link href=".." className='border border-gray-300 rounded px-2 py-1 hover:bg-gray-200 focus-within:bg-gray-200 active:scale-95 transition-all duration-75'>Cancel</Link>
 				</div>
 			</form>
 			</ModalRadix>

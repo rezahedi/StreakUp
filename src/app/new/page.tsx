@@ -14,7 +14,7 @@ export default async function Home() {
     redirect('/')
 
 	return (
-		<div className='mx-auto lg:max-w-screen-xl px-2.5 lg:px-20'>
+		<div className='col-span-1 auto-rows-min grid-cols-1 lg:col-span-5 border-gray-50 rounded-lg border-2 bg-white mt-6 p-3 shadow sm:p-4'>
 			<h2 className="text-xl text-orange-500 border-b border-orange-500 pb-2 my-4">New Habit:</h2>
 			<form action={createHabit} className="flex flex-col gap-4">
 				<label htmlFor="name" className="text-slate-400 text-xs">
@@ -39,8 +39,8 @@ export default async function Home() {
 					days
 				</div>
 				<div className='flex justify-end gap-2'>
-					<button type="submit" className="border border-gray-300 rounded px-2 py-1 hover:bg-gray-200">Create</button>
-					<Link href=".." className='border border-gray-300 rounded px-2 py-1 hover:bg-gray-200'>Cancel</Link>
+					<button type="submit" className="border text-orange-500 border-orange-500 rounded px-2 py-1 hover:bg-orange-500 hover:bg-opacity-20 focus-within:bg-orange-500 focus-within:bg-opacity-20 active:scale-95 transition-all duration-75">Create</button>
+					<Link href=".." className='border border-gray-300 rounded px-2 py-1 hover:bg-gray-200 focus-within:bg-gray-200 active:scale-95 transition-all duration-75'>Back</Link>
 				</div>
 			</form>
 		</div>
