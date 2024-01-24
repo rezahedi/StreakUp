@@ -206,7 +206,6 @@ export async function restartHabit(id: string) {
 /**
  * Create new habit
  */
-// TODO: add goal to form
 export async function createHabit(data: FormData) {
 	'use server'
 
@@ -230,6 +229,8 @@ export async function createHabit(data: FormData) {
 		throw new Error('Habit name Error');
 	if ( typeof repeatPattern !== 'string' || repeatPattern.length === 0 || !patternFormatChecker(repeatPattern) )
 		throw new Error('Habit repeat type Error');
+  if ( goal < 7 || goal > 365 )
+    goal = 30
 
 	// Get pattern object
 	let patternObj = getRepeatPatternObject(repeatPattern)

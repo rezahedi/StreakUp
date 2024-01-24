@@ -34,7 +34,7 @@ export default async function Home() {
 					Set a goal but not a long one!
 				</label>
 				<div className='flex gap-4 items-center'>
-					<input id="goal" name="habitGoal" type="number" min={7} max={256} defaultValue={30} required
+					<input id="goal" name="habitGoal" type="number" min={7} max={365} defaultValue={30} required
 						className="border border-slate-300 rounded px-2 py-1 outline-none text-slate-800" />
 					days
 				</div>
