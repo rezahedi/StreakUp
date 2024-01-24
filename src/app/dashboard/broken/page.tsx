@@ -1,6 +1,7 @@
+import { BrokenCard } from "@/app/ui";
 
 export default function page() {
   return (
-    <div>Broken</div>
+    <BrokenCard />
   )
 }

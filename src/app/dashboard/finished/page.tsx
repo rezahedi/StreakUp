@@ -1,6 +1,7 @@
+import { FinishedCard } from "@/app/ui";
 
 export default function page() {
   return (
-    <div>Finished</div>
+    <FinishedCard />
   )
 }
