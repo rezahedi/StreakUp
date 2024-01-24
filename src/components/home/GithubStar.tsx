@@ -5,11 +5,13 @@ export default async function GithubStar({repo}: {repo: string}) {
   if(!repo) return (<>No Repo!</>)
 
   let starCount = 0;
-  await fetch(`https://api.github.com/repos/${repo}`)
+  await fetch(`https://api.github.com/repos/${repo}`, { next: {revalidate: 86400} })
     .then((res) => res.json())
     .then((json) => {
       starCount = json.stargazers_count;
-    });
+    }).catch((err) => {
+      console.error(err)
+    })
 
   return (
     <a href={`https://github.com/${repo}`} target="_blank" rel="noreferrer">
