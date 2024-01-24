@@ -219,6 +219,7 @@ export async function createHabit(data: FormData) {
 	let habitName = data.get('habitName')?.valueOf().toString() || ''
 	let repeatPattern = data.get('repeatPattern')?.valueOf().toString() || '1d'
 	let emoji = data.get('emoji')?.valueOf().toString() || ''
+  let goal = parseInt( data.get('habitGoal')?.valueOf().toString() || '' )
 
 	// Sanitize posted data
 	habitName = sanitizeString( habitName )
@@ -241,6 +242,7 @@ export async function createHabit(data: FormData) {
 			name: habitName,
 			emoji,
 			repeatPattern,
+      goal,
 			readablePattern: patternObj.readablePattern,
 			levels: patternObj.levels,
 			startDate,

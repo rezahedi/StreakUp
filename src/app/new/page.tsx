@@ -30,6 +30,14 @@ export default async function Home() {
 					How often do you want to do it?
 				</label>
 				<RepeatPattern />
+				<label htmlFor="habitGoal" className="text-slate-400 text-xs">
+					Set a goal but not a long one!
+				</label>
+				<div className='flex gap-4 items-center'>
+					<input id="goal" name="habitGoal" type="number" min={7} max={256} defaultValue={30} required
+						className="border border-slate-300 rounded px-2 py-1 outline-none text-slate-800" />
+					days
+				</div>
 				<div className='flex justify-end gap-2'>
 					<button type="submit" className="border border-gray-300 rounded px-2 py-1 hover:bg-gray-200">Create</button>
 					<Link href=".." className='border border-gray-300 rounded px-2 py-1 hover:bg-gray-200'>Cancel</Link>
