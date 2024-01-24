@@ -1,6 +1,6 @@
 import Link from 'next/link'
-import RepeatPattern from '@/app/new/RepeatPattern'
-import EmojiPicker from '@/app/new/EmojiPicker'
+import RepeatPattern from '@/app/dashboard/new/RepeatPattern'
+import EmojiPicker from '@/app/dashboard/new/EmojiPicker'
 import { createHabit } from '@/app/lib/actions'
 import { getServerSession } from "next-auth/next";
 import { authOptions } from '@/app/lib/auth';
@@ -40,7 +40,7 @@ export default async function Home() {
 				</div>
 				<div className='flex justify-end gap-2'>
 					<button type="submit" className="border text-orange-500 border-orange-500 rounded px-2 py-1 hover:bg-orange-500 hover:bg-opacity-20 focus-within:bg-orange-500 focus-within:bg-opacity-20 active:scale-95 transition-all duration-75">Create</button>
-					<Link href=".." className='border border-gray-300 rounded px-2 py-1 hover:bg-gray-200 focus-within:bg-gray-200 active:scale-95 transition-all duration-75'>Back</Link>
+					<Link href="/dashboard" className='border border-gray-300 rounded px-2 py-1 hover:bg-gray-200 focus-within:bg-gray-200 active:scale-95 transition-all duration-75'>Back</Link>
 				</div>
 			</form>
 		</div>

@@ -11,7 +11,7 @@ export default function CreateHabitBtn(
   const router = useRouter();
 
   function handleClick() {
-    router.push('/new');
+    router.push('/dashboard/new');
   }
 
   // event listener if user hit 'S' key call handleClick
