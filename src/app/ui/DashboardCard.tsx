@@ -7,6 +7,7 @@ import { TodaySkeleton } from "@/app/ui/skeletons";
 import { NoHabits, TodayItem, TomorrowItem, BrokenItem, FinishedItem, Welcome } from "@/app/ui";
 import { filterToday, filterTomorrow, filterBroken, filterFinished } from "@/app/lib/filters";
 import { activateHabit, restartHabit, checkinHabit } from "@/app/lib/actions";
+import Link from "next/link";
 
 export default function DashboardCard() {
   const [habits, setHabits] = useState<habits[] | null>(null);
@@ -102,7 +103,7 @@ export default function DashboardCard() {
   }
 
   return (
-    <div className="col-span-1 auto-rows-min grid-cols-1 lg:col-span-5">
+    <div className="col-span-1 auto-rows-min grid-cols-1 lg:col-span-5 mt-4">
       {loading && <TodaySkeleton count={3} />}
       {error && <div>Not logged in</div>}
       {habits && (
@@ -131,25 +132,18 @@ export default function DashboardCard() {
               </ul>
             </>
           )}
-          {broken.length > 0 && (
-            <>
-              <h2>Broken</h2>
-              <ul role="list">
-                {broken.map((habit) => (
-                  <BrokenItem key={habit.id} habit={habit} action={activateAction} />
-                ))}
-              </ul>
-            </>
-          )}
-          {finished.length > 0 && (
-            <>
-              <h2>Finished</h2>
-              <ul role="list">
-                {finished.map((habit) => (
-                  <FinishedItem key={habit.id} habit={habit} action={restartAction} />
-                ))}
-              </ul>
-            </>
+          {(broken.length > 0 || finished.length > 0) && (
+            <div className="flex flex-col items-center text-center text-green-500 py-10">
+              <p>You have{` `}
+              {broken.length > 0 && (
+                <><Link href='/dashboard/broken' className="underline hover:no-underline">{broken.length} broken habits!</Link><br /></>
+              )}
+              {(broken.length > 0 && finished.length > 0) && (`And `)}
+              {finished.length > 0 && (
+                <>reached <Link href='/dashboard/finished' className="underline hover:no-underline">{finished.length} of your goals</Link> 🎉🥳</>
+              )}
+              </p>
+            </div>
           )}
         </>
       )}
