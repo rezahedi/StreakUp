@@ -8,7 +8,7 @@ import { NoHabits, TodayItem, TomorrowItem, BrokenItem, FinishedItem, Welcome } 
 import { filterToday, filterTomorrow, filterBroken, filterFinished } from "@/app/lib/filters";
 import { activateHabit, restartHabit, checkinHabit } from "@/app/lib/actions";
 
-export default function Dashboard() {
+export default function DashboardCard() {
   const [habits, setHabits] = useState<habits[] | null>(null);
   const [today, setToday] = useState<habits[]>([]);
   const [tomorrow, setTomorrow] = useState<habits[]>([]);
