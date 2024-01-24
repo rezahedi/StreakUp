@@ -13,6 +13,7 @@ import { sanitizeString } from "@/utils/sanitize";
 
 /**
  * Update habit status as checked-in
+ * Make habit finished when streak reaches to goal
  **/
 export async function checkinHabit(id: string)
 {
@@ -47,6 +48,20 @@ export async function checkinHabit(id: string)
     habit.lastLevel + 1
   );
 
+  let newStreak = habit.streak + streakIncrease;
+  let newStatus = habit.status;
+  let newLastStreak = habit.lastStreak;
+
+  // Check if habit is finished by comparing streak with goal
+  if ( newStreak === habit.goal )
+    newStatus = 2;
+
+  // if finished (newStatus=2) reset streak=0 and save newStreak as lastStreak
+  if ( newStatus === 2 ) {
+    newLastStreak = newStreak;
+    newStreak = 0;
+  }
+
   return await prisma.habits.update({
     where: {
       id,
@@ -55,13 +70,18 @@ export async function checkinHabit(id: string)
       startDate,
       endDate,
       lastLevel,
-      streak: habit.streak + streakIncrease,
+
+      
+      streak: 0,
+      lastStreak: newStreak,
+      
+      status: newStatus,
     },
   });
 }
 
 /**
- * Update habit status as skipped
+ * Disable habits that skipped by checking dates and updating status = 0
  */
 export async function updateHabits(user: CustomUser) {
 
@@ -101,6 +121,51 @@ export async function updateHabits(user: CustomUser) {
  * Activate broken habit
  */
 export async function activateHabit(id: string) {
+
+  const session = await getServerSession(authOptions);
+  if (!session || !session.user)
+    throw new Error("User not logged in");
+
+  // Get data by id
+  let habit = await prisma.habits.findFirst({
+    where: {
+      id,
+      userId: session.user.id,
+    },
+  });
+
+  if (!habit) {
+    throw new Error("Habit not found");
+  }
+
+  if (
+    habit.repeatPattern.length === 0 ||
+    !patternFormatChecker(habit.repeatPattern)
+  )
+    throw new Error("Habit repeat type Error");
+
+  // Get pattern object
+  let patternObj = getRepeatPatternObject(habit.repeatPattern);
+
+  // calculate first checkin start/end dates
+  const {startDate, endDate} = getStartEndDate(patternObj, 0);
+
+  return await prisma.habits.update({
+    where: {
+      id,
+    },
+    data: {
+      startDate,
+      endDate,
+      status: 1,
+    },
+  });
+}
+
+/**
+ * Start finished habit again by setting status from 2 to 1
+ */
+export async function restartHabit(id: string) {
 
   const session = await getServerSession(authOptions);
   if (!session || !session.user)

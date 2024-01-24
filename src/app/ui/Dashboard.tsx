@@ -4,15 +4,16 @@ import { useEffect, useState } from "react";
 import { fetchAllData } from "@/app/lib/data";
 import { habits } from "@prisma/client";
 import { TodaySkeleton } from "@/app/ui/skeletons";
-import { BrokenItem, NoHabits, TodayItem, TomorrowItem, Welcome } from "@/app/ui";
-import { filterToday, filterTomorrow, filterBroken } from "@/app/lib/filters";
-import { activateHabit, checkinHabit } from "@/app/lib/actions";
+import { NoHabits, TodayItem, TomorrowItem, BrokenItem, FinishedItem, Welcome } from "@/app/ui";
+import { filterToday, filterTomorrow, filterBroken, filterFinished } from "@/app/lib/filters";
+import { activateHabit, restartHabit, checkinHabit } from "@/app/lib/actions";
 
 export default function Dashboard() {
   const [habits, setHabits] = useState<habits[] | null>(null);
   const [today, setToday] = useState<habits[]>([]);
   const [tomorrow, setTomorrow] = useState<habits[]>([]);
   const [broken, setBroken] = useState<habits[]>([]);
+  const [finished, setFinished] = useState<habits[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
 
@@ -37,6 +38,7 @@ export default function Dashboard() {
     setToday( filterToday(habits) );
     setTomorrow( filterTomorrow(habits) );
     setBroken( filterBroken(habits) );
+    setFinished( filterFinished(habits) );
   }, [habits]);
 
   const checkinAction = async (id: string): Promise<boolean> => {
@@ -64,6 +66,26 @@ export default function Dashboard() {
 
 		try {
 			let res = await activateHabit(id)
+			if (res) {
+        // Update habits state
+        let updatedHabits = habits.map(habit => habit.id === id ? { ...res } : habit)
+        setHabits(updatedHabits)
+				
+        return true;
+      }
+
+		} catch (error) {
+			console.error(error)
+		}
+
+    return false
+  }
+  
+  const restartAction = async (id: string): Promise<boolean> => {
+    if (habits === null) return false;
+
+		try {
+			let res = await restartHabit(id)
 			if (res) {
         // Update habits state
         let updatedHabits = habits.map(habit => habit.id === id ? { ...res } : habit)
@@ -115,6 +137,16 @@ export default function Dashboard() {
               <ul role="list">
                 {broken.map((habit) => (
                   <BrokenItem key={habit.id} habit={habit} action={activateAction} />
+                ))}
+              </ul>
+            </>
+          )}
+          {finished.length > 0 && (
+            <>
+              <h2>Finished</h2>
+              <ul role="list">
+                {finished.map((habit) => (
+                  <FinishedItem key={habit.id} habit={habit} action={restartAction} />
                 ))}
               </ul>
             </>

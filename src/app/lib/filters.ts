@@ -46,9 +46,25 @@ export const filterBroken = (habits: habits[]) =>
 
   // Filter by status=0
   data = habits.filter(habit => {
-    const now = new Date();
     return (
       habit.status === 0
+    )
+  })
+
+  // Sort by updatedAt descending
+  data.sort( (a, b) => b.updatedAt!.getTime() - a.updatedAt!.getTime() );
+
+  return data;
+}
+
+export const filterFinished = (habits: habits[]) =>
+{
+  let data: habits[];
+
+  // Filter by status=2
+  data = habits.filter(habit => {
+    return (
+      habit.status === 2
     )
   })
 

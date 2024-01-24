@@ -1,6 +1,7 @@
 import TodayItem from './TodayItem';
 import TomorrowItem from './TomorrowItem';
 import BrokenItem from './BrokenItem';
+import FinishedItem from './FinishedItem';
 import Dashboard from './Dashboard';
 import Welcome from './Welcome';
 import CreateHabitBtn from './CreateHabitBtn';
@@ -11,6 +12,7 @@ export {
   TodayItem,
   TomorrowItem,
   BrokenItem,
+  FinishedItem,
   Dashboard,
   Welcome,
   CreateHabitBtn,
