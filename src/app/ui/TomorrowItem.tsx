@@ -2,7 +2,7 @@ import { getRepeatPatternObject, getcomingDate } from "@/utils/dates"
 import { faCalendarCheck, faCalendarDays } from "@fortawesome/free-regular-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { habits } from "@prisma/client"
-import { ProgressBar } from "@/app/ui"
+import { ContextMenuButton, ProgressBar } from "@/app/ui"
 
 
 export default function TomorrowItem({ habit }: { habit: habits })
@@ -12,7 +12,7 @@ export default function TomorrowItem({ habit }: { habit: habits })
   let patternObject = getRepeatPatternObject(repeatPattern)
 
   return (
-    <li className="flex gap-4 items-center rounded-lg bg-slate-100 my-4 sm:p-4 p-4" role="listitem">
+    <li className="flex gap-4 items-center border-gray-50 rounded-lg border-2 bg-white my-4 p-3 pr-1 shadow transition-all hover:shadow-md sm:p-4" role="listitem">
       <div className="aspect-square">
         <ProgressBar size={90} progress={(100/goal)*streak} label={`${streak}/${goal} days`} />
       </div>
@@ -34,7 +34,10 @@ export default function TomorrowItem({ habit }: { habit: habits })
             </time>
           </div>
         </div>
-        {startDate && <div className="self-end sm:self-center whitespace-nowrap">In {getcomingDate(startDate)}</div>}
+        <div className="self-end sm:self-center flex gap-2 items-center">
+          {startDate && <div className="whitespace-nowrap border border-slate-400 rounded px-2 py-1">In {getcomingDate(startDate)}</div>}
+          <ContextMenuButton />
+        </div>
       </div>
     </li>
   )

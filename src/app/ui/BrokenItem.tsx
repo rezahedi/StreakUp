@@ -4,7 +4,7 @@ import { faCalendarCheck } from "@fortawesome/free-regular-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useState } from "react"
 import { habits } from "@prisma/client";
-import { ProgressBar } from "@/app/ui"
+import { ContextMenuButton, ProgressBar } from "@/app/ui"
 
 
 export default function BrokenItem(
@@ -23,7 +23,7 @@ export default function BrokenItem(
 	}
 
   return (
-		<li className="flex gap-4 items-center rounded-lg bg-slate-100 my-4 sm:p-4 p-2" role="listitem">
+		<li className="flex gap-4 items-center border-gray-50 rounded-lg border-2 bg-white my-4 p-3 pr-1 shadow transition-all hover:shadow-md sm:p-4" role="listitem">
 			<div className='aspect-square'>
 				<ProgressBar size={90} progress={0} label={`${goal} days`} />
 			</div>
@@ -37,13 +37,16 @@ export default function BrokenItem(
 							{lastStreak ? `${lastStreak}d best streak` : `Never started`}</span>
 					</div>
 				</div>
-				{active && <span className='text-green-500'>Activated!</span>}
-				{!active && 
-					<button
-						onClick={e => handleClick(id)}
-						className='self-end sm:self-center border text-orange-500 border-orange-500 rounded px-2 py-1 hover:bg-orange-500 hover:bg-opacity-20 focus-within:bg-orange-500 focus-within:bg-opacity-20 whitespace-nowrap'>
-						Activate</button>
-				}
+				<div className="self-end sm:self-center flex gap-2 items-center">
+					{active && <span className='text-green-500'>Activated!</span>}
+					{!active && 
+						<button
+							onClick={e => handleClick(id)}
+							className='border text-orange-500 border-orange-500 rounded px-2 py-1 hover:bg-orange-500 hover:bg-opacity-20 focus-within:bg-orange-500 focus-within:bg-opacity-20 active:scale-95 transition-all duration-75 whitespace-nowrap'>
+							Activate</button>
+					}
+					<ContextMenuButton />
+				</div>
 			</div>
 		</li>
   )

@@ -7,6 +7,7 @@ import Welcome from './Welcome';
 import CreateHabitBtn from './CreateHabitBtn';
 import NoHabits from './NoHabits';
 import ProgressBar from './ProgressBar';
+import ContextMenuButton from './ContextMenuButton';
 
 export {
   TodayItem,
@@ -18,4 +19,5 @@ export {
   CreateHabitBtn,
   NoHabits,
   ProgressBar,
+  ContextMenuButton,
 };

@@ -4,7 +4,7 @@ import { faCalendarCheck, faCalendarDays } from "@fortawesome/free-regular-svg-i
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useState } from "react"
 import { habits } from "@prisma/client";
-import { ProgressBar } from "@/app/ui"
+import { ContextMenuButton, ProgressBar } from "@/app/ui"
 
 
 export default function TodayItem(
@@ -23,7 +23,7 @@ export default function TodayItem(
 	}
 
   return (
-		<li className="flex gap-4 items-center rounded-lg bg-slate-100 my-4 sm:p-4 p-4" role="listitem">
+		<li className="flex gap-4 items-center border-gray-50 rounded-lg border-2 bg-white my-4 p-3 pr-1 shadow transition-all hover:shadow-md sm:p-4" role="listitem">
 			<div className='aspect-square'>
 				<ProgressBar size={90} progress={(100/goal)*streak} label={`${streak}/${goal} days`} />
 			</div>
@@ -42,13 +42,16 @@ export default function TodayItem(
 							{createdAt.toLocaleDateString()}</time>
 					</div>
 				</div>
-				{checkin && <span className='text-green-500'>Checked in</span>}
-				{!checkin && 
-					<button
-						onClick={e => handleClick(id)}
-						className='self-end sm:self-center border text-orange-500 border-orange-500 rounded px-2 py-1 hover:bg-orange-500 hover:bg-opacity-20 focus-within:bg-orange-500 focus-within:bg-opacity-20 whitespace-nowrap'>
-						Check-in</button>
-				}
+				<div className="self-end sm:self-center flex gap-2 items-center">
+					{checkin && <span className='text-green-500'>Checked in</span>}
+					{!checkin && 
+						<button
+							onClick={e => handleClick(id)}
+							className='border text-orange-500 border-orange-500 rounded px-2 py-1 hover:bg-orange-500 hover:bg-opacity-20 focus-within:bg-orange-500 focus-within:bg-opacity-20 active:scale-95 transition-all duration-75 whitespace-nowrap'>
+							Check-in</button>
+					}
+					<ContextMenuButton />
+				</div>
 			</div>
 		</li>
   )
