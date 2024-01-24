@@ -13,7 +13,7 @@ export default function RootLayout({
     <>
       <SubHeader />
       <div className='mx-auto lg:max-w-screen-xl px-2.5 lg:px-20'>
-        <div className='grid grid-cols-1 gap-5 lg:grid-cols-7'>
+        <div className='grid grid-cols-1 lg:gap-5 lg:grid-cols-7'>
           <Sidebar />
           {children}
           {modal}
