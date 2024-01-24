@@ -7,6 +7,7 @@ import Welcome from './Welcome';
 import CreateHabitBtn from './CreateHabitBtn';
 import NoHabits from './NoHabits';
 import ProgressBar from './ProgressBar';
+import Sidebar from './Sidebar';
 import ContextMenuButton from './ContextMenuButton';
 
 export {
@@ -19,5 +20,6 @@ export {
   CreateHabitBtn,
   NoHabits,
   ProgressBar,
+  Sidebar,
   ContextMenuButton,
 };

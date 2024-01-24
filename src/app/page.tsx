@@ -1,4 +1,4 @@
-import { Dashboard } from '@/app/ui'
+import { Dashboard, Sidebar } from '@/app/ui'
 import { ProductIntro } from "@/components/home";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/app/lib/auth";
@@ -18,7 +18,12 @@ export default async function page()
   return (
     <>
       <SubHeader />
-      <Dashboard />
+      <div className='mx-auto lg:max-w-screen-xl px-2.5 lg:px-20'>
+        <div className='grid grid-cols-1 gap-5 lg:grid-cols-7'>
+          <Sidebar />
+          <Dashboard />
+        </div>
+      </div>
     </>
   )
 }

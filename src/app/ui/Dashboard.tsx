@@ -102,7 +102,7 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="mx-auto lg:max-w-screen-xl px-2.5 lg:px-20">
+    <div className="col-span-1 auto-rows-min grid-cols-1 lg:col-span-5">
       {loading && <TodaySkeleton count={3} />}
       {error && <div>Not logged in</div>}
       {habits && (
@@ -123,7 +123,7 @@ export default function Dashboard() {
           )}
           {tomorrow.length > 0 && (
             <>
-              <h2>Tomorrow</h2>
+              <h2>Upcoming</h2>
               <ul role="list">
                 {tomorrow.map((habit) => (
                   <TomorrowItem key={habit.id} habit={habit} />
