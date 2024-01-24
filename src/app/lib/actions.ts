@@ -53,13 +53,11 @@ export async function checkinHabit(id: string)
   let newLastStreak = habit.lastStreak;
 
   // Check if habit is finished by comparing streak with goal
-  if ( newStreak === habit.goal )
+  // if finished (newStatus=2) reset streak=0 and set lastStreak = goal
+  if ( newStreak === habit.goal ) {
     newStatus = 2;
-
-  // if finished (newStatus=2) reset streak=0 and save newStreak as lastStreak
-  if ( newStatus === 2 ) {
-    newLastStreak = newStreak;
     newStreak = 0;
+    newLastStreak = habit.goal;
   }
 
   return await prisma.habits.update({
@@ -70,11 +68,9 @@ export async function checkinHabit(id: string)
       startDate,
       endDate,
       lastLevel,
-
       
-      streak: 0,
-      lastStreak: newStreak,
-      
+      streak: newStreak,
+      lastStreak: newLastStreak,
       status: newStatus,
     },
   });
@@ -210,6 +206,7 @@ export async function restartHabit(id: string) {
 /**
  * Create new habit
  */
+// TODO: add goal to form
 export async function createHabit(data: FormData) {
 	'use server'
 
