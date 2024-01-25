@@ -10,6 +10,8 @@ import {
 } from "@/utils/dates";
 import { CustomUser } from "@/type";
 import { sanitizeString } from "@/utils/sanitize";
+import { signOut } from "next-auth/react";
+import { redirect } from 'next/navigation';
 
 /**
  * Update habit status as checked-in
@@ -251,4 +253,67 @@ export async function createHabit(data: FormData) {
 			userId: session.user.id
 		}
 	})
+}
+
+/**
+ * Update User Profile
+ */
+export async function updateProfile(data: FormData) {
+	'use server'
+
+	// Get user session token
+  const session = await getServerSession(authOptions);
+	if (!session || !session.user)
+		throw new Error('User not logged in')
+
+	// Get posted data
+	let name = data.get('name')?.valueOf().toString() || ''
+	// let image = data.get('image')?.valueOf().toString() || ''
+	// let timezone = data.get('timezone')?.valueOf().toString() || ''
+
+	// Sanitize posted data
+	name = sanitizeString( name )
+	// image = sanitizeString( image )
+	// timezone = sanitizeString( timezone )
+
+	// Validate posted data
+	if ( typeof name !== 'string' || name.length === 0 )
+		throw new Error('User Full Name Error');
+
+	return await prisma.user.update({
+    where: {
+      id: session.user.id
+    },
+		data: {
+			name,
+			// image,
+			// timezone,
+		}
+	})
+}
+
+
+/**
+ * Delete All User Data
+ */
+export async function deleteUser(id: string): Promise<boolean> {
+	'use server'
+
+	// Get user session token
+  const session = await getServerSession(authOptions);
+	if (!session || !session.user || session.user.id !== id)
+		throw new Error('User not logged in')
+
+  let res = await prisma.$transaction([
+    prisma.habits.deleteMany({ where: { userId: id } }),
+    prisma.account.deleteMany({ where: { userId: id } }),
+    prisma.user.delete({ where: { id } })
+  ])
+
+  if ( res ) {
+    signOut({ callbackUrl: '/' })
+    redirect('/')
+  }
+
+  return false
 }
