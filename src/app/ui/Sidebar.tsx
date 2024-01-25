@@ -3,8 +3,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCalendarXmark, faChessQueen, faIdBadge, faRectangleList } from '@fortawesome/free-regular-svg-icons'
 
 export default function Sidebar() {
+  //! TODO: Whenever progressbar z-index fixed make sidebar sticky in all screens not just lg:
   return (
-    <div className="z-[1] scrollbar-hide sticky top-16 lg:top-20 col-span-2 mt-4 max-h-[calc(100vh-150px)] self-start overflow-auto rounded-lg border border-gray-100 bg-white shadow-md lg:shadow lg:block">
+    <div className="scrollbar-hide lg:sticky top-16 lg:top-20 col-span-2 mt-4 max-h-[calc(100vh-150px)] self-start overflow-auto rounded-lg border border-gray-100 bg-white shadow-md lg:shadow lg:block">
       <div className="grid w-full rounded-md bg-white p-1 lg:p-6 lg:py-8 lg:divide-y lg:divide-gray-300">
         <ul className='flex flex-row lg:flex-col gap-1 justify-center flex-wrap'>
           <li>

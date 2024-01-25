@@ -6,6 +6,7 @@ import { authOptions } from "@/app/lib/auth";
 
 export default async function Header() {
   const session = await getServerSession(authOptions);
+	//! TODO: z-index must be removed but first progressbar z-index should be fixed
 	return (
 		<header className="sticky left-0 right-0 top-0 z-20 border-b border-gray-200 bg-white">
 			<div className='flex justify-between items-center mx-auto w-full max-w-screen-xl py-2 px-2.5 lg:px-20'>
