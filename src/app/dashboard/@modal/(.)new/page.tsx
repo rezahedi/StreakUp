@@ -14,6 +14,10 @@ export default async function NewModal() {
   if (!session || !session.user)
     redirect('/')
 
+  // TODO: Loading, error, and success states
+	// TODO: Update habits array state
+	// TODO: Close modal on success
+
 	return (
     // <Modal className="w-full max-w-lg bg-white shadow-lg rounded-lg p-8">
 			<ModalRadix>
