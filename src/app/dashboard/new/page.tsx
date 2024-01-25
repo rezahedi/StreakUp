@@ -1,25 +1,57 @@
+'use client'
+
 import Link from 'next/link'
 import RepeatPattern from '@/app/dashboard/new/RepeatPattern'
 import EmojiPicker from '@/app/dashboard/new/EmojiPicker'
 import { createHabit } from '@/app/lib/actions'
-import { getServerSession } from "next-auth/next";
-import { authOptions } from '@/app/lib/auth';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+// import { useSession } from "next-auth/react";
+import { useState, useEffect } from 'react'
 
-export default async function Home() {
+export default function Home() {
+
+	const [loading, setLoading] = useState(false)
+	const [error, setError] = useState(false)
+	const [success, setSuccess] = useState(false)
+	const router = useRouter();
 
   // Get user session token
-  const session = await getServerSession(authOptions);
-  if (!session || !session.user)
-    redirect('/')
+  // const {data: session, status} = useSession();
+  // if (!session || !session.user)
+  //   redirect('/')
 
   // TODO: Loading, error, and success states
 	// TODO: Redirect to dashboard on success
 
+	const handleSubmit = async (
+		e: React.FormEvent<HTMLFormElement>
+	) => {
+		e.preventDefault()
+		let formData = new FormData(e.target as HTMLFormElement);
+
+		setError(false)
+		setLoading(true)
+		let result = await createHabit(formData)
+		setLoading(false)
+		if (result){
+			setSuccess(true)
+			router.push('/dashboard')
+		} else
+			setError(true)
+	}
+	
+	useEffect(() => {
+		console.log('error changed', error)
+	}, [error])
+
+	useEffect(() => {
+		console.log('loading changed', loading)
+	}, [loading])
+
 	return (
 		<div className='col-span-1 auto-rows-min grid-cols-1 lg:col-span-5 border-gray-50 rounded-lg border-2 bg-white mt-4 p-3 shadow sm:p-4'>
 			<h2 className="text-xl text-orange-500 border-b border-orange-500 pb-2 my-4">New Habit:</h2>
-			<form action={createHabit} className="flex flex-col gap-4">
+			<form onSubmit={(e)=>handleSubmit(e)} className="flex flex-col gap-4">
 				<label htmlFor="name" className="text-slate-400 text-xs">
 					What habit do you want to streak up?
 				</label>
@@ -42,9 +74,12 @@ export default async function Home() {
 					days
 				</div>
 				<div className='flex justify-end gap-2'>
-					<button type="submit" className="border text-orange-500 border-orange-500 rounded px-2 py-1 hover:bg-orange-500 hover:bg-opacity-20 focus-within:bg-orange-500 focus-within:bg-opacity-20 active:scale-95 transition-all duration-75">Create</button>
+					<button type="submit" disabled={loading} className="border text-orange-500 border-orange-500 rounded px-2 py-1 hover:bg-orange-500 hover:bg-opacity-20 focus-within:bg-orange-500 focus-within:bg-opacity-20 enabled:active:scale-95 transition-all duration-75 disabled:cursor-default">Create</button>
 					<Link href="/dashboard" className='border border-gray-300 rounded px-2 py-1 hover:bg-gray-200 focus-within:bg-gray-200 active:scale-95 transition-all duration-75'>Back</Link>
 				</div>
+				{loading && <p className='mt-4 text-green-500 text-center'>Loading...</p>}
+				{error && <p className='mt-4 text-red-500 text-center'>Something went wrong. Please try again.</p>}
+				{success && <p className='mt-4 text-green-500 text-center'>Habit created!</p>}
 			</form>
 		</div>
 	)
