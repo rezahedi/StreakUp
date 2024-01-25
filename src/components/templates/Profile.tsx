@@ -4,9 +4,12 @@ import { useRouter } from "next/navigation";
 import { useSession, signIn, signOut } from "next-auth/react";
 import Skeleton from "react-loading-skeleton";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+import { UserDeleteDialog } from "@/app/ui";
+import { useState } from "react";
 // import { ProfileDelete } from "@/components/templates";
 
 export default function Profile() {
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState<boolean>(false);
   const {data: session, status} = useSession();
   const router = useRouter();
 
@@ -57,10 +60,13 @@ export default function Profile() {
           onSelect={() => router.push('/dashboard/profile')}>
           Update Profile
         </DropdownMenu.Item>
-        <DropdownMenu.Item disabled className="block cursor-pointer p-2 text-sm text-gray-700 hover:bg-gray-100"
-          onSelect={() => {}}>
-          Delete Account
-        </DropdownMenu.Item>
+        <UserDeleteDialog id={user.id} open={deleteDialogOpen} setOpen={setDeleteDialogOpen} trigger={(
+          <DropdownMenu.Item className="block cursor-pointer p-2 text-sm text-gray-700 hover:bg-gray-100"
+            onSelect={(e) => { e.preventDefault(); setDeleteDialogOpen(true) }}>
+            Delete Account
+          </DropdownMenu.Item>          
+        )} />
+        
         <DropdownMenu.Item className="block cursor-pointer p-2 text-sm text-gray-700 hover:bg-gray-100"
           onSelect={() => signOut()}>
           Sign out
