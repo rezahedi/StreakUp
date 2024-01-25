@@ -1,28 +1,56 @@
+'use client'
 import Link from 'next/link'
 import RepeatPattern from '@/app/dashboard/new/RepeatPattern'
 import EmojiPicker from '@/app/dashboard/new/EmojiPicker'
 import { createHabit } from '@/app/lib/actions'
-import { getServerSession } from "next-auth/next";
-import { authOptions } from '@/app/lib/auth';
-import { redirect } from 'next/navigation';
+// import { getServerSession } from "next-auth/next";
+// import { authOptions } from '@/app/lib/auth';
+// import { redirect } from 'next/navigation';
 import ModalRadix from "@/components/ModalRadix";
+import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react'
 
-export default async function NewModal() {
+export default function NewModal() {
+
+	const [loading, setLoading] = useState(false)
+	const [error, setError] = useState(false)
+	const [success, setSuccess] = useState(false)
+	const router = useRouter();
 
   // Get user session token
-  const session = await getServerSession(authOptions);
-  if (!session || !session.user)
-    redirect('/')
+  // const session = await getServerSession(authOptions);
+  // if (!session || !session.user)
+  //   redirect('/')
 
-  // TODO: Loading, error, and success states
-	// TODO: Update habits array state
-	// TODO: Close modal on success
+	const handleSubmit = async (
+		e: React.FormEvent<HTMLFormElement>
+	) => {
+		e.preventDefault()
+		let formData = new FormData(e.target as HTMLFormElement);
+
+		setError(false)
+		setLoading(true)
+		let result = await createHabit(formData)
+		setLoading(false)
+		if (result){
+			setSuccess(true)
+			// TODO: update habits array state
+			// I think habits array state should be moved to parent component then passed down as props to this component
+			// then we can update the habits array state of any current page (dashboard, broken or finished or none)
+			// BUT for now, I just refresh the current page!
+
+			// TODO: close modal
+			//! Bad Idea, and do not what I want
+			// router.push('/dashboard')
+		} else
+			setError(true)
+	}
 
 	return (
     // <Modal className="w-full max-w-lg bg-white shadow-lg rounded-lg p-8">
 			<ModalRadix>
 			<h2 className="text-xl text-orange-500 border-b border-orange-500 pb-2 my-4">New Habit:</h2>
-			<form action={createHabit} className="flex flex-col gap-4">
+			<form onSubmit={(e)=>handleSubmit(e)} className="flex flex-col gap-4">
 				<label htmlFor="name" className="text-slate-400 text-xs">
 					What habit do you want to streak up?
 				</label>
@@ -46,8 +74,11 @@ export default async function NewModal() {
 				</div>
 				<div className='flex justify-end gap-2'>
 					<button type="submit" className="border text-orange-500 border-orange-500 rounded px-2 py-1 hover:bg-orange-500 hover:bg-opacity-20 focus-within:bg-orange-500 focus-within:bg-opacity-20 active:scale-95 transition-all duration-75">Create</button>
-					<Link href="/dashboard" className='border border-gray-300 rounded px-2 py-1 hover:bg-gray-200 focus-within:bg-gray-200 active:scale-95 transition-all duration-75'>Cancel</Link>
+					<button onClick={router.back} type='button' className='border border-gray-300 rounded px-2 py-1 hover:bg-gray-200 focus-within:bg-gray-200 active:scale-95 transition-all duration-75'>Cancel</button>
 				</div>
+				{loading && <p className='mt-4 text-green-500 text-center'>Loading...</p>}
+				{error && <p className='mt-4 text-red-500 text-center'>Something went wrong. Please try again.</p>}
+				{success && <p className='mt-4 text-green-500 text-center'>Habit created!</p>}
 			</form>
 			</ModalRadix>
     // </Modal>
