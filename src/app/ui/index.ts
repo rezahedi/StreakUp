@@ -11,6 +11,7 @@ import NoHabits from './NoHabits';
 import ProgressBar from './ProgressBar';
 import Sidebar from './Sidebar';
 import ContextMenuButton from './ContextMenuButton';
+import UserDeleteDialog from './UserDeleteDialog';
 
 export {
   TodayItem,
@@ -26,4 +27,5 @@ export {
   ProgressBar,
   Sidebar,
   ContextMenuButton,
+  UserDeleteDialog,
 };
