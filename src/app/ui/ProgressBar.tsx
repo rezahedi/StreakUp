@@ -32,13 +32,16 @@ export default function ProgressBar({
   const center = size / 2,
         radius = center - (trackWidth > indicatorWidth ? trackWidth : indicatorWidth),
         dashArray = 2 * Math.PI * radius
-        const [dashOffset, setDashOffset] = useState( dashArray )
+  const [dashOffset, setDashOffset] = useState( dashArray )
 
   let hideLabel = (size < 80 || !label.length || spinnerMode) ? true : false
 
   useEffect(() => {
-    setDashOffset( dashArray * ((100 - progress) / 100) )
-  }, [progress])
+    // Delay to the animation
+    setTimeout(() => {
+      setDashOffset( dashArray * ((100 - progress) / 100) )
+    }, 10)
+  }, [])
 
   return (
     <>
@@ -65,7 +68,7 @@ export default function ProgressBar({
             }`}
             style={{
               animationDuration: `${spinnerSpeed}s`,
-              transition: !spinnerMode ? `all ${progress*.02}s ease-out` : `none`
+              transition: !spinnerMode ? `all ${progress*.01}s ease-out` : `none`
             }}
             cx={center}
             cy={center}
