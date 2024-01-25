@@ -6,7 +6,7 @@ import EmojiPicker from '@/app/dashboard/new/EmojiPicker'
 import { createHabit } from '@/app/lib/actions'
 import { useRouter } from 'next/navigation';
 // import { useSession } from "next-auth/react";
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 export default function Home() {
 
@@ -36,14 +36,6 @@ export default function Home() {
 		} else
 			setError(true)
 	}
-	
-	useEffect(() => {
-		console.log('error changed', error)
-	}, [error])
-
-	useEffect(() => {
-		console.log('loading changed', loading)
-	}, [loading])
 
 	return (
 		<div className='col-span-1 auto-rows-min grid-cols-1 lg:col-span-5 border-gray-50 rounded-lg border-2 bg-white mt-4 p-3 shadow sm:p-4'>
