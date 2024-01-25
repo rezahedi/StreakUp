@@ -25,7 +25,7 @@ export default function FinishedItem(
   return (
 		<li className="flex gap-4 items-center border-gray-50 rounded-lg border-2 bg-white my-4 p-3 pr-1 shadow transition-all hover:shadow-md sm:p-4" role="listitem">
 			<div className='aspect-square'>
-				<ProgressBar size={90} progress={0} label={`${goal} days`} />
+				<ProgressBar size={90} progress={100} label={`${goal} days`} />
 			</div>
 			<div className="grow flex gap-4 sm:items-center flex-col sm:flex-row">
         <div className="flex flex-col grow">
