@@ -6,7 +6,7 @@ import { habits } from "@prisma/client";
 import { TodaySkeleton } from "@/app/ui/skeletons";
 import { FinishedItem, Welcome } from "@/app/ui";
 import { filterToday, filterFinished } from "@/app/lib/filters";
-import { restartHabit } from "@/app/lib/actions";
+import { deleteHabit, restartHabit } from "@/app/lib/actions";
 
 export default function FinishedCard() {
   const [habits, setHabits] = useState<habits[] | null>(null);
@@ -57,6 +57,26 @@ export default function FinishedCard() {
     return false
   }
 
+  const deleteAction = async (id: string): Promise<boolean> => {
+    if (habits === null) return false;
+
+    try {
+      let res = await deleteHabit(id)
+      if (res) {
+        // Update habits state
+        let updatedHabits = habits.filter(habit => habit.id !== id)
+        setHabits(updatedHabits)
+
+        return true;
+      }
+
+    } catch (error) {
+      console.error(error)
+    }
+
+    return false
+  }
+
   return (
     <div className="col-span-1 auto-rows-min grid-cols-1 lg:col-span-5 mt-4">
       {loading && <TodaySkeleton count={3} />}
@@ -70,7 +90,7 @@ export default function FinishedCard() {
               <h2>Finished</h2>
               <ul role="list">
                 {finished.map((habit) => (
-                  <FinishedItem key={habit.id} habit={habit} action={restartAction} />
+                  <FinishedItem key={habit.id} habit={habit} action={restartAction} remove={deleteAction} />
                 ))}
               </ul>
             </>

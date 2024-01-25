@@ -6,7 +6,7 @@ import { habits } from "@prisma/client";
 import { TodaySkeleton } from "@/app/ui/skeletons";
 import { BrokenItem, Welcome } from "@/app/ui";
 import { filterToday, filterBroken } from "@/app/lib/filters";
-import { activateHabit } from "@/app/lib/actions";
+import { activateHabit, deleteHabit } from "@/app/lib/actions";
 
 export default function BrokenCard() {
   const [habits, setHabits] = useState<habits[] | null>(null);
@@ -57,6 +57,26 @@ export default function BrokenCard() {
     return false
   }
   
+  const deleteAction = async (id: string): Promise<boolean> => {
+    if (habits === null) return false;
+
+    try {
+      let res = await deleteHabit(id)
+      if (res) {
+        // Update habits state
+        let updatedHabits = habits.filter(habit => habit.id !== id)
+        setHabits(updatedHabits)
+
+        return true;
+      }
+
+    } catch (error) {
+      console.error(error)
+    }
+
+    return false
+  }
+
   return (
     <div className="col-span-1 auto-rows-min grid-cols-1 lg:col-span-5 mt-4">
       {loading && <TodaySkeleton count={3} />}
@@ -70,7 +90,7 @@ export default function BrokenCard() {
               <h2>Broken</h2>
               <ul role="list">
                 {broken.map((habit) => (
-                  <BrokenItem key={habit.id} habit={habit} action={activateAction} />
+                  <BrokenItem key={habit.id} habit={habit} action={activateAction} remove={deleteAction} />
                 ))}
               </ul>
             </>

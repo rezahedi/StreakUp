@@ -5,8 +5,13 @@ import { habits } from "@prisma/client"
 import { ContextMenuButton, ProgressBar } from "@/app/ui"
 
 
-export default function TomorrowItem({ habit }: { habit: habits })
-{
+export default function TomorrowItem({
+  habit,
+  remove
+}: {
+  habit: habits,
+  remove: (id: string) => Promise<boolean>
+}) {
   const { id, name, emoji, repeatPattern, goal, streak, lastStreak, startDate, createdAt } = habit
 
   let patternObject = getRepeatPatternObject(repeatPattern)
@@ -36,7 +41,7 @@ export default function TomorrowItem({ habit }: { habit: habits })
         </div>
         <div className="self-end sm:self-center flex gap-2 items-center">
           {startDate && <div className="whitespace-nowrap border border-slate-400 rounded px-2 py-1">In {getcomingDate(startDate)}</div>}
-          <ContextMenuButton />
+          <ContextMenuButton id={id} remove={remove} />
         </div>
       </div>
     </li>

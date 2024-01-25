@@ -8,9 +8,15 @@ import { ContextMenuButton, ProgressBar } from "@/app/ui"
 
 
 export default function BrokenItem(
-	{ habit, action }:
-	{ habit: habits, action: (id: string) => Promise<boolean> }
-) {
+{
+	habit,
+	action,
+	remove
+}: {
+	habit: habits,
+	action: (id: string) => Promise<boolean>,
+	remove: (id: string) => Promise<boolean>
+}) {
 	const [active, setActive] = useState(false)
   const { id, name, emoji, repeatPattern, goal, lastStreak } = habit
 
@@ -45,7 +51,7 @@ export default function BrokenItem(
 							className='border text-orange-500 border-orange-500 rounded px-2 py-1 hover:bg-orange-500 hover:bg-opacity-20 focus-within:bg-orange-500 focus-within:bg-opacity-20 active:scale-95 transition-all duration-75 whitespace-nowrap'>
 							Activate</button>
 					}
-					<ContextMenuButton />
+					<ContextMenuButton id={id} remove={remove} />
 				</div>
 			</div>
 		</li>

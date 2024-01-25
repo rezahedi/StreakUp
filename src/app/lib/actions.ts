@@ -317,3 +317,27 @@ export async function deleteUser(id: string): Promise<boolean> {
 
   return false
 }
+
+
+/**
+ * Delete All User Data
+ */
+export async function deleteHabit(id: string): Promise<boolean> {
+	'use server'
+
+	// Get user session token
+  const session = await getServerSession(authOptions);
+	if (!session || !session.user)
+		throw new Error('User not logged in')
+
+  let result = await prisma.habits.deleteMany({
+    where: {
+      id,
+      userId: session.user.id
+    }
+  })
+
+  if( !result ) return false
+
+  return true
+}

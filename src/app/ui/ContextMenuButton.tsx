@@ -1,7 +1,8 @@
 "use client"
+
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 
-export default function ContextMenuButton() {
+export default function ContextMenuButton({ id, remove }: { id: string, remove: (id: string) => Promise<boolean> }) {
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger>
@@ -23,8 +24,8 @@ export default function ContextMenuButton() {
         onSelect={() => {}}>
         Edit
       </DropdownMenu.Item>
-      <DropdownMenu.Item disabled className="block cursor-pointer p-2 text-sm text-gray-700 hover:bg-gray-100"
-        onSelect={() => {}}>
+      <DropdownMenu.Item className="block cursor-pointer p-2 text-sm text-gray-700 hover:bg-gray-100"
+        onSelect={async () => await remove(id)}>
         Delete
       </DropdownMenu.Item>
     </DropdownMenu.Content>

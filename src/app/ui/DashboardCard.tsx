@@ -6,7 +6,7 @@ import { habits } from "@prisma/client";
 import { TodaySkeleton } from "@/app/ui/skeletons";
 import { NoHabits, TodayItem, TomorrowItem, Welcome } from "@/app/ui";
 import { filterToday, filterTomorrow, filterBroken, filterFinished } from "@/app/lib/filters";
-import { activateHabit, restartHabit, checkinHabit } from "@/app/lib/actions";
+import { checkinHabit, deleteHabit } from "@/app/lib/actions";
 import Link from "next/link";
 
 export default function DashboardCard() {
@@ -62,6 +62,26 @@ export default function DashboardCard() {
     return false
   }
 
+  const deleteAction = async (id: string): Promise<boolean> => {
+    if (habits === null) return false;
+
+    try {
+      let res = await deleteHabit(id)
+      if (res) {
+        // Update habits state
+        let updatedHabits = habits.filter(habit => habit.id !== id)
+        setHabits(updatedHabits)
+
+        return true;
+      }
+
+    } catch (error) {
+      console.error(error)
+    }
+
+    return false
+  }
+
   return (
     <div className="col-span-1 auto-rows-min grid-cols-1 lg:col-span-5 mt-4">
       {loading && <TodaySkeleton count={3} />}
@@ -76,7 +96,7 @@ export default function DashboardCard() {
               {today.length > 0 && (
                 <ul role="list">
                   {today.map((habit) => (
-                    <TodayItem key={habit.id} habit={habit} action={checkinAction} />
+                    <TodayItem key={habit.id} habit={habit} action={checkinAction} remove={deleteAction} />
                   ))}
                 </ul>
               )}
@@ -87,7 +107,7 @@ export default function DashboardCard() {
               <h2>Upcoming</h2>
               <ul role="list">
                 {tomorrow.map((habit) => (
-                  <TomorrowItem key={habit.id} habit={habit} />
+                  <TomorrowItem key={habit.id} habit={habit} remove={deleteAction} />
                 ))}
               </ul>
             </>
