@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { fetchAllData } from "@/app/lib/data";
 import { habits } from "@prisma/client";
 import { TodaySkeleton } from "@/app/ui/skeletons";
-import { NoHabits, TodayItem, TomorrowItem, BrokenItem, FinishedItem, Welcome } from "@/app/ui";
+import { NoHabits, TodayItem, TomorrowItem, Welcome } from "@/app/ui";
 import { filterToday, filterTomorrow, filterBroken, filterFinished } from "@/app/lib/filters";
 import { activateHabit, restartHabit, checkinHabit } from "@/app/lib/actions";
 import Link from "next/link";
@@ -52,46 +52,6 @@ export default function DashboardCard() {
         let updatedHabits = habits.map(habit => habit.id === id ? { ...res } : habit)
         setHabits(updatedHabits)
         
-        return true;
-      }
-
-		} catch (error) {
-			console.error(error)
-		}
-
-    return false
-  }
-
-  const activateAction = async (id: string): Promise<boolean> => {
-    if (habits === null) return false;
-
-		try {
-			let res = await activateHabit(id)
-			if (res) {
-        // Update habits state
-        let updatedHabits = habits.map(habit => habit.id === id ? { ...res } : habit)
-        setHabits(updatedHabits)
-				
-        return true;
-      }
-
-		} catch (error) {
-			console.error(error)
-		}
-
-    return false
-  }
-  
-  const restartAction = async (id: string): Promise<boolean> => {
-    if (habits === null) return false;
-
-		try {
-			let res = await restartHabit(id)
-			if (res) {
-        // Update habits state
-        let updatedHabits = habits.map(habit => habit.id === id ? { ...res } : habit)
-        setHabits(updatedHabits)
-				
         return true;
       }
 
