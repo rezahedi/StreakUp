@@ -20,9 +20,6 @@ export default function Home() {
   // if (!session || !session.user)
   //   redirect('/')
 
-  // TODO: Loading, error, and success states
-	// TODO: Redirect to dashboard on success
-
 	const handleSubmit = async (
 		e: React.FormEvent<HTMLFormElement>
 	) => {
