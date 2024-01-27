@@ -8,8 +8,8 @@ export default async function ProfileServer () {
   if (!session || !session.user) {
     return (
       <div className="hidden lg:block">
-        <a className="animate-fade-in rounded-full px-4 py-1.5 text-sm font-medium text-gray-500 transition-colors ease-out hover:text-black" href="/api/auth/login">Log in</a>
-        <a className="animate-fade-in rounded-full border border-black bg-black px-4 py-1.5 text-sm text-white transition-all hover:bg-white hover:text-black" href="/api/auth/signin">Sign Up</a>
+        <a className="animate-fade-in rounded-full px-4 py-1.5 text-sm font-medium text-gray-500 transition-colors ease-out hover:text-black" href="/api/auth/signin?callbackUrl=/dashboard">Log in</a>
+        <a className="animate-fade-in rounded-full border border-black bg-black px-4 py-1.5 text-sm text-white transition-all hover:bg-white hover:text-black" href="/api/auth/signin?callbackUrl=/dashboard">Sign Up</a>
       </div>
     );
   }

@@ -13,7 +13,7 @@ export default function Hero({ loggedIn = false }: { loggedIn?: boolean }) {
           <Link href="/dashboard" className="rounded-full border border-black bg-black px-5 py-2 text-sm text-white shadow-lg transition-all hover:bg-white hover:text-black">Go to Dashboard</Link>
         }
         {!loggedIn &&
-          <Link href="/api/auth/signin" className="rounded-full border border-black bg-black px-5 py-2 text-sm text-white shadow-lg transition-all hover:bg-white hover:text-black">Start Building</Link>
+          <Link href="/api/auth/signin?callbackUrl=/dashboard" className="rounded-full border border-black bg-black px-5 py-2 text-sm text-white shadow-lg transition-all hover:bg-white hover:text-black">Start Building</Link>
         }
       </div>
     </div>
