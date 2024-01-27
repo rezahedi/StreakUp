@@ -57,6 +57,10 @@ export default function Profile() {
           <div className="text-gray-500">{user.email}</div>
         </div>
         <DropdownMenu.Item className="block cursor-pointer p-2 text-sm text-gray-700 hover:bg-gray-100"
+          onSelect={() => router.push('/dashboard')}>
+          Dashboard
+        </DropdownMenu.Item>
+        <DropdownMenu.Item className="block cursor-pointer p-2 text-sm text-gray-700 hover:bg-gray-100"
           onSelect={() => router.push('/dashboard/profile')}>
           Update Profile
         </DropdownMenu.Item>
