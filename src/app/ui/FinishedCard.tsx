@@ -84,7 +84,11 @@ export default function FinishedCard() {
       {habits && (
         <>
           {habits.length === 0 && <Welcome />}
-          {habits.length !== 0 && finished.length === 0 && (<p>You haven&apos;t finished any habits yet!</p>)}
+          {habits.length !== 0 && finished.length === 0 && (
+            <div className="flex flex-col items-center py-10">
+              <p>You haven&apos;t reached any of your goals yet, keep going.</p>
+            </div>
+          )}
           {finished.length > 0 && (
             <>
               <h2>Finished</h2>

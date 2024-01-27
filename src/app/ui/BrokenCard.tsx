@@ -84,7 +84,11 @@ export default function BrokenCard() {
       {habits && (
         <>
           {habits.length === 0 && <Welcome />}
-          {habits.length !== 0 && broken.length === 0 && (<p>Yay, You don&apos;t have any broken habits!</p>)}
+          {habits.length !== 0 && broken.length === 0 && (
+            <div className="flex flex-col items-center text-green-500 py-10">
+              <p>Yay, You don&apos;t have any broken habits 👍</p>
+            </div>
+          )}
           {broken.length > 0 && (
             <>
               <h2>Broken</h2>
