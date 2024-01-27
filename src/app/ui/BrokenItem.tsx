@@ -4,7 +4,10 @@ import { faCalendarCheck } from "@fortawesome/free-regular-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useState } from "react"
 import { habits } from "@prisma/client";
-import { ContextMenuButton, ProgressBar } from "@/app/ui"
+import { ProgressBar } from "@/app/ui"
+import { lazy, Suspense } from "react"
+import { VerticalEllipsis } from "@/app/ui/icons";
+const ContextMenuButton = lazy(() => import('@/app/ui/ContextMenuButton'))
 
 
 export default function BrokenItem(
@@ -51,7 +54,9 @@ export default function BrokenItem(
 							className='border text-orange-500 border-orange-500 rounded px-2 py-1 hover:bg-orange-500 hover:bg-opacity-20 focus-within:bg-orange-500 focus-within:bg-opacity-20 active:scale-95 transition-all duration-75 whitespace-nowrap'>
 							Activate</button>
 					}
-					<ContextMenuButton id={id} remove={remove} />
+					<Suspense fallback={<VerticalEllipsis className='p-1 fill-gray-500' />}>
+						<ContextMenuButton id={id} remove={remove} />
+					</Suspense>
 				</div>
 			</div>
 		</li>

@@ -2,8 +2,10 @@ import { getRepeatPatternObject, getcomingDate } from "@/utils/dates"
 import { faCalendarCheck, faCalendarDays } from "@fortawesome/free-regular-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { habits } from "@prisma/client"
-import { ContextMenuButton, ProgressBar } from "@/app/ui"
-
+import { ProgressBar } from "@/app/ui"
+import { lazy, Suspense } from "react"
+import { VerticalEllipsis } from "@/app/ui/icons"
+const ContextMenuButton = lazy(() => import('@/app/ui/ContextMenuButton'))
 
 export default function TomorrowItem({
   habit,
@@ -41,7 +43,9 @@ export default function TomorrowItem({
         </div>
         <div className="self-end sm:self-center flex gap-2 items-center">
           {startDate && <div className="whitespace-nowrap border border-slate-400 rounded px-2 py-1">In {getcomingDate(startDate)}</div>}
-          <ContextMenuButton id={id} remove={remove} />
+          <Suspense fallback={<VerticalEllipsis className="p-1 fill-gray-500" />}>
+            <ContextMenuButton id={id} remove={remove} />
+          </Suspense>
         </div>
       </div>
     </li>
