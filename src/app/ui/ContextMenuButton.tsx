@@ -1,18 +1,15 @@
 "use client"
 
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
+import { VerticalEllipsis } from '@/app/ui/icons'
 
 export default function ContextMenuButton({ id, remove }: { id: string, remove: (id: string) => Promise<boolean> }) {
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger>
-        <div className="sm:inline-flex rounded-md px-1 py-2 transition-all duration-75 hover:bg-gray-100 active:bg-gray-200" aria-haspopup="dialog" aria-expanded="true" aria-controls="radix-:rcv:" data-state="open">
-          <span className="sr-only">Edit</span>
-          <svg fill="none" shapeRendering="geometricPrecision" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" viewBox="0 0 24 24" width="14" height="14" className="h-5 w-5 text-gray-500">
-            <circle cx="12" cy="12" r="1"></circle>
-            <circle cx="12" cy="5" r="1"></circle>
-            <circle cx="12" cy="19" r="1"></circle>
-          </svg>
+        <div className="h-full rounded p-1 transition-all duration-75 hover:bg-gray-100 active:bg-gray-200" aria-haspopup="dialog" aria-expanded="true" aria-controls="radix-:rcv:" data-state="open">
+          <span className="sr-only">Options</span>
+          <VerticalEllipsis className='fill-gray-500' />
         </div>
       </DropdownMenu.Trigger>
     <DropdownMenu.Content align="end" className="w-60 p-4 animate-fade-in rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
