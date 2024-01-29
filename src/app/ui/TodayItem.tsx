@@ -44,7 +44,7 @@ export default function TodayItem(
 			<div className="grow flex gap-4 sm:items-center flex-col sm:flex-row">
 				<div className="flex flex-col grow">
 					<span className="text-slate-400 text-xs">{patternObject.readablePattern}</span>
-					<div className={`text-lg py-2`+(checkin && ` line-through`)}>
+					<div className='text-lg py-2'>
 						{emoji}
 						<Suspense fallback={<>{name}</>}>
 							<Editable onSave={handleSave}>{name}</Editable>
