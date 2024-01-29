@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import { EditPen } from '@/app/ui/icons'
 
 
 export default function Editable({
@@ -68,9 +69,13 @@ export default function Editable({
   }
 
   return (
-    <span className={`select-none inline-flex flex-col ${editable ? `cursor-text` : `cursor-pointer`}`} title="Click to inline edit">
-      <div ref={editableRef} onBlur={handleBlur} onClick={handleClick} onKeyDown={handleKeyDown} contentEditable={editable}
-      className='inline-block focus:outline-none focus:border focus:border-gray-300 focus:rounded'>{text}</div>
+    <span className='select-none inline-flex flex-col'>
+      <div className='flex gap-2 items-center'>
+        <div ref={editableRef} onBlur={handleBlur} onClick={handleClick} onKeyDown={handleKeyDown} contentEditable={editable}
+          title="Click to inline edit"
+          className={`peer inline-block focus:outline-none focus:border focus:border-gray-300 focus:rounded ${editable ? `cursor-text` : `cursor-pointer`}`}>{text}</div>
+        <EditPen className='hidden peer-hover:inline w-4 fill-gray-400' />
+      </div>
       {message && <i className='text-xs text-gray-600'>{message}</i>}
     </span>
   )
