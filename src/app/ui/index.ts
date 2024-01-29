@@ -12,6 +12,7 @@ import ProgressBar from './ProgressBar';
 import Sidebar from './Sidebar';
 import ContextMenuButton from './ContextMenuButton';
 import UserDeleteDialog from './UserDeleteDialog';
+import Editable from './Editable';
 
 export {
   TodayItem,
@@ -28,4 +29,5 @@ export {
   Sidebar,
   ContextMenuButton,
   UserDeleteDialog,
+  Editable,
 };

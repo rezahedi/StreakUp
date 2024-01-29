@@ -6,17 +6,25 @@ import { ProgressBar } from "@/app/ui"
 import { lazy, Suspense } from "react"
 import { VerticalEllipsis } from "@/app/ui/icons"
 const ContextMenuButton = lazy(() => import('@/app/ui/ContextMenuButton'))
+const Editable = lazy(() => import('@/app/ui/Editable'))
 
 export default function TomorrowItem({
   habit,
-  remove
+  remove,
+  save
 }: {
   habit: habits,
-  remove: (id: string) => Promise<boolean>
+  remove: (id: string) => Promise<boolean>,
+  save: (id: string, name: string) => Promise<boolean>
 }) {
   const { id, name, emoji, repeatPattern, goal, streak, lastStreak, startDate, createdAt } = habit
 
   let patternObject = getRepeatPatternObject(repeatPattern)
+
+	const handleSave = async (name: string) => {
+		let res = await save(id, name)
+		return res
+	}
 
   return (
     <li className="flex gap-4 items-center border-gray-50 rounded-lg border-2 bg-white my-4 p-3 pr-1 shadow transition-all hover:shadow-md sm:p-4" role="listitem">
@@ -28,7 +36,12 @@ export default function TomorrowItem({
           <span className="text-slate-400 text-xs">
             {patternObject.readablePattern}
           </span>
-          <div className="text-lg py-2">{emoji} {name}</div>
+          <div className="text-lg py-2">
+            {emoji}
+						<Suspense fallback={<>{name}</>}>
+              <Editable onSave={handleSave}>{name}</Editable>
+            </Suspense>
+          </div>
           <div className="flex gap-8">
             <span className="flex gap-1 text-slate-400 text-xs">
               <FontAwesomeIcon icon={faCalendarCheck} className="w-3" />

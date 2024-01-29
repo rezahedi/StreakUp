@@ -330,14 +330,30 @@ export async function deleteHabit(id: string): Promise<boolean> {
 	if (!session || !session.user)
 		throw new Error('User not logged in')
 
-  let result = await prisma.habits.deleteMany({
-    where: {
-      id,
-      userId: session.user.id
-    }
+  let result = await prisma.habits.delete({
+    where: { id }
   })
 
   if( !result ) return false
 
   return true
+}
+
+/**
+ * Update habit Name
+ */
+export async function updateHabitName(id: string, name: string) {
+  'use server'
+
+  // Get user session token
+  const session = await getServerSession(authOptions);
+  if (!session || !session.user)
+    throw new Error('User not logged in')
+
+  return await prisma.habits.update({
+    where: { id },
+    data: {
+      name
+    }
+  })
 }
