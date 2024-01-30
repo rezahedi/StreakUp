@@ -6,7 +6,7 @@ import { SignInButton } from "@/app/ui/auth"
 import { Google, Github } from "@/app/ui/icons"
 import Image from 'next/image'
 
-export default async function SignIn() {
+export default async function Page() {
   const session = await getServerSession(authOptions)
   if (session)
     redirect("/dashboard")
