@@ -29,7 +29,7 @@ export default function Profile() {
   // Signed out state
   if ( !session || !session.user ) {
     return (
-      <a href="/api/auth/signin" onClick={handleSignin} className="flex gap-2 items-center px-4 py-2 rounded-md hover:bg-gray-100">
+      <a href="/signin" onClick={handleSignin} className="flex gap-2 items-center px-4 py-2 rounded-md hover:bg-gray-100">
         Signin
         <svg
           className="w-7 h-7 rounded-full"
