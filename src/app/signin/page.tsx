@@ -10,7 +10,7 @@ export default async function Page() {
   const session = await getServerSession(authOptions)
   if (session)
     redirect("/dashboard")
-  const providers = await getProviders() ?? []
+  const providers = await getProviders()
 
   return (
     <div className="flex justify-center">
@@ -23,7 +23,7 @@ export default async function Page() {
           <p className="text-sm text-gray-500">Start building your new habits here.</p>
         </div>
         <div className="flex flex-col space-y-3 bg-gray-50 px-4 py-10 sm:px-16">
-          {Object.values(providers).map((provider) => (
+          {providers && Object.values(providers).map((provider) => (
             <div key={provider.name}>
               <SignInButton providerId={provider.id}>
                 {provider.id === "google" && <Google className="w-4 h-4" />}
