@@ -2,8 +2,12 @@
 
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 import { VerticalEllipsis } from '@/app/ui/icons'
+import { HabitDeleteDialog } from '@/app/ui'
+import { useState } from 'react'
 
 export default function ContextMenuButton({ id, remove }: { id: string, remove: (id: string) => Promise<boolean> }) {
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState<boolean>(false);
+
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger>
@@ -21,10 +25,12 @@ export default function ContextMenuButton({ id, remove }: { id: string, remove: 
         onSelect={() => {}}>
         Edit
       </DropdownMenu.Item>
-      <DropdownMenu.Item className="block cursor-pointer p-2 text-sm text-gray-700 hover:bg-gray-100"
-        onSelect={async () => await remove(id)}>
-        Delete
-      </DropdownMenu.Item>
+      <HabitDeleteDialog id={id} open={deleteDialogOpen} setOpen={setDeleteDialogOpen} remove={remove} trigger={(
+        <DropdownMenu.Item className="block cursor-pointer p-2 text-sm text-gray-700 hover:bg-gray-100"
+          onSelect={(e) => { e.preventDefault(); setDeleteDialogOpen(true) }}>
+          Delete
+        </DropdownMenu.Item>
+      )} />
     </DropdownMenu.Content>
   </DropdownMenu.Root>
   )

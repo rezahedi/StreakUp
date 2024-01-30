@@ -12,6 +12,7 @@ import ProgressBar from './ProgressBar';
 import Sidebar from './Sidebar';
 import ContextMenuButton from './ContextMenuButton';
 import UserDeleteDialog from './UserDeleteDialog';
+import HabitDeleteDialog from './HabitDeleteDialog';
 import Editable from './Editable';
 
 export {
@@ -29,5 +30,6 @@ export {
   Sidebar,
   ContextMenuButton,
   UserDeleteDialog,
+  HabitDeleteDialog,
   Editable,
 };
