@@ -14,7 +14,6 @@ export default function NewModal() {
 
 	const [loading, setLoading] = useState(false)
 	const [error, setError] = useState(false)
-	const [success, setSuccess] = useState(false)
 	const router = useRouter();
 
   // Get user session token
@@ -33,7 +32,7 @@ export default function NewModal() {
 		let result = await createHabit(formData)
 		setLoading(false)
 		if (result){
-			setSuccess(true)
+			router.back()
 			// TODO: update habits array state
 			// I think habits array state should be moved to parent component then passed down as props to this component
 			// then we can update the habits array state of any current page (dashboard, broken or finished or none)
@@ -78,7 +77,6 @@ export default function NewModal() {
 				</div>
 				{loading && <p className='mt-4 text-green-500 text-center'>Loading...</p>}
 				{error && <p className='mt-4 text-red-500 text-center'>Something went wrong. Please try again.</p>}
-				{success && <p className='mt-4 text-green-500 text-center'>Habit created!</p>}
 			</form>
 			</ModalRadix>
     // </Modal>
