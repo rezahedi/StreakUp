@@ -10,6 +10,9 @@ export default async function Page() {
   const session = await getServerSession(authOptions)
   if (session)
     redirect("/dashboard")
+
+  // In Vercel getProviders() didn't work on and had error, so after some research
+  // I found that NEXTAUTH_URL env variable should be set in Vercel.
   const providers = await getProviders()
 
   return (
