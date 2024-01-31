@@ -5,6 +5,7 @@ import { redirect } from "next/navigation"
 import { SignInButton } from "@/app/ui/auth"
 import { Google, Github } from "@/app/ui/icons"
 import Image from 'next/image'
+import EmailForm from "./EmailForm"
 
 export default async function Page() {
   const session = await getServerSession(authOptions)
@@ -26,15 +27,16 @@ export default async function Page() {
           <p className="text-sm text-gray-500">Start building your new habits here.</p>
         </div>
         <div className="flex flex-col space-y-3 bg-gray-50 px-4 py-10 sm:px-16">
-          {providers && Object.values(providers).map((provider) => (
-            <div key={provider.name}>
-              <SignInButton providerId={provider.id}>
-                {provider.id === "google" && <Google className="w-4 h-4" />}
-                {provider.id === "github" && <Github className="w-4 h-4" />}
-                <p>Sign in with {provider.name}</p>
-              </SignInButton>
-            </div>
-          ))}
+          <SignInButton providerId="google">
+            <Google className="w-4 h-4" />
+            <p>Sign in with Google</p>
+          </SignInButton>
+          <SignInButton providerId="github">
+            <Github className="w-4 h-4" />
+            <p>Sign in with Github</p>
+          </SignInButton>
+          <div className="mb-4 mt-1 border-t border-gray-300" />
+          <EmailForm />
         </div>
       </div>
     </div>
