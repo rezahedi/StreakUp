@@ -7,11 +7,14 @@ export default function EmailForm() {
   const [showEmailOption, setShowEmailOption] = useState(false);
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
 
   return (
     <form
         onSubmit={async (e) => {
           e.preventDefault();
+          setMessage("");
+          setError("");
           signIn("email", {
             email,
             redirect: false,
@@ -20,7 +23,7 @@ export default function EmailForm() {
               setEmail("");
               setMessage("Email sent - check your inbox!");
             } else {
-              setMessage("Error sending email - try again?");
+              setError("Error sending email - try again?");
             }
           });
         }}
@@ -53,7 +56,8 @@ export default function EmailForm() {
             },
           })}
         >Continue with Email</button>
-        {message && (<p className="text-center text-sm text-red-500">{message}</p>)}
+        {error && (<p className="text-center text-sm text-red-500">{error}</p>)}
+        {message && (<p className="text-center text-sm text-green-500">{message}</p>)}
       </form>
   )
 }
