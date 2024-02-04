@@ -8,8 +8,15 @@ import { NoHabits, TodayItem, TomorrowItem, Welcome } from "@/app/ui";
 import { filterToday, filterTomorrow, filterBroken, filterFinished } from "@/app/lib/filters";
 import { checkinHabit, deleteHabit, updateHabitName } from "@/app/lib/actions";
 import Link from "next/link";
+import { getMessaging, onMessage } from 'firebase/messaging';
+import firebaseApp from '@/app/lib/firebase';
+import useFcmToken from "@/utils/useFcmToken";
 
 export default function DashboardCard() {
+  const { fcmToken, notificationPermissionStatus } = useFcmToken();
+  // Use the token as needed
+  fcmToken && console.log('FCM token:', fcmToken);
+
   const [habits, setHabits] = useState<habits[] | null>(null);
   const [today, setToday] = useState<habits[]>([]);
   const [tomorrow, setTomorrow] = useState<habits[]>([]);
@@ -33,6 +40,20 @@ export default function DashboardCard() {
     })();
   }, []);
 
+  useEffect(() => {
+    if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
+      const messaging = getMessaging(firebaseApp);
+      const unsubscribe = onMessage(messaging, (payload) => {
+        console.log('Foreground push notification received:', payload);
+        // Handle the received push notification while the app is in the foreground
+        // You can display a notification or update the UI based on the payload
+      });
+      return () => {
+        unsubscribe(); // Unsubscribe from the onMessage event
+      };
+    }
+  }, []);
+  
   useEffect(() => {
     if (habits === null) return;
 
