@@ -26,3 +26,4 @@ https://github.com/rezahedi/streakup/assets/1499349/0bcad31b-fbdc-4cdf-9b81-5c85
 - handle error in signin page, error passed as search param `error` https://next-auth.js.org/configuration/pages#sign-in-page
 - create custom error page for auth
 - Build CRUD admin panel using shadcn
+- Profile update page: auto save changes, profile picture upload, timezone setting
