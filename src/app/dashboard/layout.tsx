@@ -1,6 +1,6 @@
 import { SubHeader } from '@/components/templates';
 import { Sidebar } from '@/app/ui';
-
+import { Toaster } from "sonner";
 
 export default function RootLayout({
   children,
@@ -18,6 +18,7 @@ export default function RootLayout({
           {children}
           {modal}
         </div>
+        <Toaster closeButton />
       </div>
     </>
   )
