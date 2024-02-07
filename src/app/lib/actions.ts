@@ -12,6 +12,7 @@ import { CustomUser } from "@/type";
 import { sanitizeString } from "@/utils/sanitize";
 import { signOut } from "next-auth/react";
 import { redirect } from 'next/navigation';
+import cloudinary from "cloudinary"
 
 /**
  * Update habit status as checked-in
@@ -292,6 +293,41 @@ export async function updateProfile(data: FormData) {
 	})
 }
 
+/**
+ * Update Profile Picture
+ */
+export async function updateProfilePicture(id: string, image: string) {
+  'use server'
+
+  if( !image )
+    return '';
+
+	// Get user session token
+  const session = await getServerSession(authOptions);
+	if (!session || !session.user || session.user.id !== id)
+		return '';
+
+  // Upload image to Cloudinary
+  const { secure_url } = await cloudinary.v2.uploader.upload(image, {
+    folder: 'streakup-Profile',
+    overwrite: true,
+    invalidate: true,
+    transformation: [
+      { width: 200, height: 200, gravity: "face", crop: "thumb" }
+    ]
+  });
+
+  if ( !secure_url )
+    return '';
+
+  // Update user profile picture in prisma
+  const user = await prisma.user.update({
+    where: { id },
+    data: { image: secure_url }
+  })
+  
+  return user.image
+}
 
 /**
  * Delete All User Data

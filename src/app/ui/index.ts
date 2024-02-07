@@ -14,6 +14,7 @@ import ContextMenuButton from './ContextMenuButton';
 import UserDeleteDialog from './UserDeleteDialog';
 import HabitDeleteDialog from './HabitDeleteDialog';
 import Editable from './Editable';
+import ProfileImageUpdater from './ProfileImageUpdater';
 
 export {
   TodayItem,
@@ -32,4 +33,5 @@ export {
   UserDeleteDialog,
   HabitDeleteDialog,
   Editable,
+  ProfileImageUpdater,
 };
