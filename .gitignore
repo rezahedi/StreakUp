@@ -32,6 +32,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# TinyBird auth token
+.tinyb
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
