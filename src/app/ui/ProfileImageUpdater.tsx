@@ -20,8 +20,9 @@ export default function ProfileImageUpdater( { id, img }: { id: string, img: str
     (async () => {
       setLoading(true)
       let url = await updateProfilePicture(id, image)
-      console.log('new url', url)
       setLoading(false)
+      if( !url )
+        toast.error("Failed to update picture, Please try again.")
     })()
 
   }, [image])
@@ -33,8 +34,6 @@ export default function ProfileImageUpdater( { id, img }: { id: string, img: str
 
       if ( file.size > maxSize2MB ) {
         toast.error("File size too big (max 2MB)");
-      } else if (file.type !== "image/png" && file.type !== "image/jpeg") {
-        toast.error("File type not supported (.png or .jpg only)");
       } else {
         const reader = new FileReader();
         reader.onload = (e) => {
@@ -62,13 +61,13 @@ export default function ProfileImageUpdater( { id, img }: { id: string, img: str
     onDragEnter,
     onDragLeave,
     maxFiles: 1,
-    maxSize: maxSize2MB,
-    onDrop
+    onDrop,
+    onError: (err) => toast.error(err.message)
   })
 
   return (
     <div {...getRootProps()} ref={dragAreaRef} className='group rounded-full w-36 h-36 relative cursor-pointer drag self-center border-4 border-black/50'>
-      <Image src={image ? image : img} alt='Profile Avatar' width={160} height={160} className="rounded-full" />
+      <Image src={image ? image : img} alt='Profile Avatar' width={160} height={160} className="rounded-full w-full h-full object-cover" />
       {!loading && <ImageEdit className='w-10 h-10 p-2 rounded-full text-white opacity-75 group-hover:opacity-100 bg-black/60 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2' />}
       {loading && <Spinner className='w-10 h-10 text-orange-500 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2' />}
       <input name='image' {...getInputProps()} />
