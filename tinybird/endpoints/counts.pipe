@@ -1,0 +1,12 @@
+DESCRIPTION >
+	Count of each key
+
+
+TOKEN "counts_endpoint_read_0843" READ
+
+NODE key_count_pipe
+SQL >
+
+    SELECT key, count(key) as `count` FROM click_events GROUP BY key as key
+
+
