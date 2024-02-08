@@ -5,6 +5,7 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import { PrismaClient } from "@prisma/client";
 import EmailProvider, { SendVerificationRequestParams } from "next-auth/providers/email";
 import { Resend } from 'resend';
+import { recordEvent } from "@/app/lib/tinybird";
 
 if (
   !process.env.GITHUB_CLIENT_ID ||
@@ -72,4 +73,10 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/signin",
   },
+  events: {
+    createUser: async (message) => {
+      // Record event log: new user signup
+      await recordEvent('signup')
+    }
+  }
 };

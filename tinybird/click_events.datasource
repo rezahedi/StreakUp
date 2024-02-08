@@ -1,0 +1,7 @@
+SCHEMA >
+    `timestamp` DateTime64(3) `json:$.timestamp`,
+    `key` String `json:$.key`
+
+ENGINE "MergeTree"
+ENGINE_PARTITION_KEY "toYYYYMM(timestamp)"
+ENGINE_SORTING_KEY "key, timestamp"

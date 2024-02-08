@@ -13,6 +13,7 @@ import { sanitizeString } from "@/utils/sanitize";
 import { signOut } from "next-auth/react";
 import { redirect } from 'next/navigation';
 import cloudinary from "cloudinary"
+import { recordEvent } from "@/app/lib/tinybird";
 
 /**
  * Update habit status as checked-in
@@ -76,6 +77,14 @@ export async function checkinHabit(id: string)
       lastStreak: newLastStreak,
       status: newStatus,
     },
+
+  }).then( async (res) => {
+    // Record event logs
+    await recordEvent('checkin')
+    if ( newStatus === 2 ) {
+      await recordEvent('reach')
+    }
+    return res
   });
 }
 
@@ -253,7 +262,12 @@ export async function createHabit(data: FormData) {
 			endDate,
 			userId: session.user.id
 		}
-	})
+
+	}).then( async (res) => {
+    // Record event log
+    await recordEvent('create')
+    return res
+  });
 }
 
 /**
