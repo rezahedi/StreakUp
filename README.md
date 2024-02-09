@@ -15,6 +15,7 @@ https://github.com/rezahedi/streakup/assets/1499349/0bcad31b-fbdc-4cdf-9b81-5c85
 
 ## Next steps to improve or fix issues
 - Refactor Habits list page, it's a mess
+- Shoud I use state management like Redux or Zustand?
 - Don't need using intercepting route for /new, just load the new component inside a dialog
 - Don't need to separate `broken` and `finished` habits to separate pages, just use a filter option
 - Sending push notifications and enable/disable push notifications in user settings
