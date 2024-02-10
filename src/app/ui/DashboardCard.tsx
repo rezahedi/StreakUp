@@ -28,15 +28,16 @@ export default function DashboardCard() {
         setError(true);
         return;
       }
-      
+      console.log('data:', data)
       setHabits(data);
     })();
   }, []);
 
   useEffect(() => {
     if (habits === null) return;
-
+console.log('habits:', habits)
     setToday( filterToday(habits) );
+    console.log('today:', today)
     setTomorrow( filterTomorrow(habits) );
     setBroken( filterBroken(habits) );
     setFinished( filterFinished(habits) );

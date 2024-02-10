@@ -7,6 +7,7 @@ export const filterToday = (habits: habits[]) =>
   // Filter by status=1, startDate <= now =< endDate
   data = habits.filter(habit => {
     const now = new Date();
+    console.log('now:', now)
     return (
       habit.status === 1 &&
       habit.startDate && habit.endDate &&
