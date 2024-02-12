@@ -62,8 +62,14 @@ export const authOptions: NextAuthOptions = {
   debug: process.env.NODE_ENV === "development",
   
   callbacks: {
-    session({user, session}) {
+    async session({user, session}) {
       if (session.user) {
+        let res = await prisma.user.findUnique({
+          where: {
+            id: user.id
+          }
+        });
+        session.user.timezone = res!.timezone
         session.user.id = user.id;
       }
 

@@ -47,7 +47,7 @@ model User {
   accounts        Account[]
   sessions        Session[]
   // user preferred timezone, used to calculate user's local time and convert all DB's UTC times to user's local time
-  timezone        String   @default("UTC")
+  timezone        String   @default("America/Los_Angeles")
   // TODO: Handle daylight saving time transitions
   tokens          Int      @default(10)
   level           Int      @default(1)
