@@ -342,28 +342,6 @@ export async function updateProfilePicture(id: string, image: string) {
 
 
 /**
- * 
- * Set or update user timezone
- * 
- */
-export async function updateUserTimezone(id: string, timezone: number)
-{
-  // Get user session token
-  const session = await getServerSession(authOptions);
-  if (!session || !session.user || session.user.id !== id)
-    return '';
-
-  // Update user timezone in prisma
-  const user = await prisma.user.update({
-    where: { id },
-    data: { timezone }
-  })
-  
-  return user.timezone
-}
-
-
-/**
  * Delete All User Data
  */
 export async function deleteUser(id: string): Promise<boolean> {
