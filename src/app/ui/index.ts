@@ -15,6 +15,7 @@ import UserDeleteDialog from './UserDeleteDialog';
 import HabitDeleteDialog from './HabitDeleteDialog';
 import Editable from './Editable';
 import ProfileImageUpdater from './ProfileImageUpdater';
+import TimezoneLSelect from './TimezoneLSelect';
 
 export {
   TodayItem,
@@ -34,4 +35,5 @@ export {
   HabitDeleteDialog,
   Editable,
   ProfileImageUpdater,
+  TimezoneLSelect,
 };

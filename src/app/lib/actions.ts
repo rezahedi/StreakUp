@@ -283,13 +283,11 @@ export async function updateProfile(data: FormData) {
 
 	// Get posted data
 	let name = data.get('name')?.valueOf().toString() || ''
-	// let image = data.get('image')?.valueOf().toString() || ''
-	// let timezone = data.get('timezone')?.valueOf().toString() || ''
+	let timezone = data.get('timezone')?.valueOf().toString() || ''
 
 	// Sanitize posted data
 	name = sanitizeString( name )
-	// image = sanitizeString( image )
-	// timezone = sanitizeString( timezone )
+	timezone = sanitizeString( timezone )
 
 	// Validate posted data
 	if ( typeof name !== 'string' || name.length === 0 )
@@ -301,8 +299,7 @@ export async function updateProfile(data: FormData) {
     },
 		data: {
 			name,
-			// image,
-			// timezone,
+			timezone,
 		}
 	})
 }
@@ -342,6 +339,29 @@ export async function updateProfilePicture(id: string, image: string) {
   
   return user.image
 }
+
+
+/**
+ * 
+ * Set or update user timezone
+ * 
+ */
+export async function updateUserTimezone(id: string, timezone: number)
+{
+  // Get user session token
+  const session = await getServerSession(authOptions);
+  if (!session || !session.user || session.user.id !== id)
+    return '';
+
+  // Update user timezone in prisma
+  const user = await prisma.user.update({
+    where: { id },
+    data: { timezone }
+  })
+  
+  return user.timezone
+}
+
 
 /**
  * Delete All User Data
