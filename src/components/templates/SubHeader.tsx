@@ -1,8 +1,10 @@
 "use client";
 
 import { CreateHabitBtn } from "@/app/ui";
+import { useSession } from "next-auth/react";
 
 export default function SubHeader() {
+  const {data: session, status} = useSession();
 
   return (
     <div className="flex h-28 items-center border-b border-gray-200 bg-white mb-4">
@@ -12,7 +14,7 @@ export default function SubHeader() {
             <h1 className="text-2xl text-gray-600">
               Welcome back 👋
             </h1>
-            <p className="text-gray-400 text-sm">{new Intl.DateTimeFormat('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }).format(new Date())}</p>            
+            <p className="text-gray-400 text-sm">{new Intl.DateTimeFormat('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric', timeZone: session?.user?.timezone }).format(new Date())}</p>            
           </div>
           <CreateHabitBtn text="Start New Habit" />
         </div>
